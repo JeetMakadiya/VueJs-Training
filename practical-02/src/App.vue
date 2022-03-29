@@ -1,19 +1,13 @@
 <template>
-  <div>
-    <HeaderComp />
-    <GalleryCard />
-  </div>
+  <HomePage />
 </template>
 
 <script>
-import GalleryCard from "./components/GalleryCard";
-import HeaderComp from "./components/HeaderComp.vue";
-
+import HomePage from "./components/HomePage.vue";
 export default {
   name: "App",
   components: {
-    GalleryCard,
-    HeaderComp,
+    HomePage,
   },
 };
 </script>
