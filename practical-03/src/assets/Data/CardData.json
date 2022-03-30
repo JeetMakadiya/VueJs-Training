@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1",
+    "title": "Hyundai Creta",
+    "image":
+      "https://imgd.aeplcdn.com/0x0/n/cw/ec/41564/hyundai-creta-right-front-three-quarter9.jpeg",
+    "description":
+      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Adipisci, possimus quibusdam voluptas alias sapiente ab nam, quos.",
+    "price": "300000"
+  },
+  {
+    "id": "2",
+    "title": "Hyundai Venue",
+    "image":
+      "https://imgd.aeplcdn.com/664x374/n/cw/ec/35455/venue-exterior-right-front-three-quarter-2.jpeg?q=75",
+    "description":
+      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Adipisci, possimus quibusdam voluptas alias sapiente ab nam, quos.",
+    "price": null
+  },
+  {
+    "id": "3",
+    "title": "Hyundai Verna",
+    "image":
+      "https://stimg.cardekho.com/images/carexteriorimages/930x620/Hyundai/Verna/7729/1616055133475/front-left-side-47.jpg",
+    "description":
+      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Adipisci, possimus quibusdam voluptas alias sapiente ab nam, quos.",
+    "price": "500000"
+  }
+]
