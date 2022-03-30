@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavBar />
-    <section style="height: calc(100vh - 14vh)">
+    <section>
       <div class="pt-5 d-flex justify-content-center">
         <div class="ms-2 me-2" v-for="data in cardData" :key="data.id">
           <GalleryCard
