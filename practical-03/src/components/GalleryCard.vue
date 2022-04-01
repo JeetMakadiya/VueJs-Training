@@ -21,6 +21,7 @@
     <b-button href="#" variant="primary" disabled v-else>
       available soon...
     </b-button>
+    <b-button href="#" variant="primary" class="ms-3"> Edit </b-button>
   </b-card>
   <!-- </div> -->
 </template>
