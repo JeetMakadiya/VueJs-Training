@@ -10,7 +10,7 @@
       @ok="handleOk"
       hide-footer="true"
     >
-      <CarForm />
+      <CarForm modalId="modal-prevent-closing" />
     </b-modal>
   </div>
 </template>

@@ -93,6 +93,7 @@ export default {
     ValidationObserver,
     ValidationProvider,
   },
+  props: ["modalId"],
   data() {
     return {
       car: {
@@ -101,11 +102,14 @@ export default {
         carPrice: "",
         carImgURL: "",
       },
+      formModalId: this.modalId,
     };
   },
   methods: {
     handleSubmit() {
       console.log(this.car);
+      this.$root.$emit("form-data", this.car);
+      this.$bvModal.hide(this.formModalId);
     },
   },
 };
