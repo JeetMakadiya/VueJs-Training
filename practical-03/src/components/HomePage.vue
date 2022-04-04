@@ -35,6 +35,8 @@ export default {
   data() {
     return {
       cardData: cardData,
+      newCarData: {},
+      latestData: cardData,
       selectedCard: {},
     };
   },
@@ -45,6 +47,12 @@ export default {
     editModalOpen(id) {
       this.selectedCard = cardData.find((item) => item.id === id);
     },
+  },
+  mounted() {
+    this.$root.$on("form-data", (data) => {
+      // this.newCarData = data;
+      this.cardData.push(data);
+    });
   },
 };
 </script>
