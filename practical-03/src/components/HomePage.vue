@@ -1,10 +1,15 @@
 <template>
   <div>
     <NavBar />
-    <section>
-      <div class="pt-5 d-flex justify-content-center">
-        <div class="ms-2 me-2" v-for="data in cardData" :key="data.id">
+    <section class="container">
+      <div class="pt-5 row">
+        <div
+          class="col-3 d-flex align-items-stretch ms-2 me-2"
+          v-for="data in cardData"
+          :key="data.id"
+        >
           <GalleryCard
+            :cardId="data.id"
             :cardTitle="data.title"
             :cardImage="data.image"
             :cardDescription="data.description"
@@ -13,6 +18,7 @@
           />
         </div>
       </div>
+      <!-- <FormModal :formData="selectedCard" /> -->
     </section>
   </div>
 </template>
@@ -29,11 +35,15 @@ export default {
   data() {
     return {
       cardData: cardData,
+      selectedCard: {},
     };
   },
   methods: {
     showCarPrice(price) {
       alert(`Car Price : ${price}`);
+    },
+    editModalOpen(id) {
+      this.selectedCard = cardData.find((item) => item.id === id);
     },
   },
 };

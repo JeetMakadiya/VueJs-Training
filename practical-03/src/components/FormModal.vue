@@ -25,6 +25,7 @@ export default {
       submittedNames: [],
     };
   },
+
   components: { CarForm },
   methods: {
     checkFormValidity() {

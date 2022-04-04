@@ -12,7 +12,7 @@
         >
           <b-form-input
             type="text"
-            v-model="user.carName"
+            v-model="car.carName"
             :state="errors[0] ? false : valid ? true : null"
             placeholder="Enter car name"
           >
@@ -23,11 +23,12 @@
         </b-form-group>
       </ValidationProvider>
 
-      <ValidationProvider rules="required" name="carDetails">
+      <ValidationProvider rules="required|min:30|max:120" name="carDetails">
         <b-form-group slot-scope="{ errors }" label="Car Details" class="mb-2">
           <b-form-textarea
-            v-model="user.carDetails"
+            v-model="car.carDetails"
             placeholder="Enter Car Details"
+            :state="errors[0] ? false : valid ? true : null"
           >
           </b-form-textarea>
           <b-form-invalid-feedback>
@@ -44,7 +45,7 @@
         >
           <b-form-input
             type="text"
-            v-model="user.carPrice"
+            v-model="car.carPrice"
             :state="errors[0] ? false : valid ? true : null"
             placeholder="Enter car price"
           >
@@ -54,7 +55,14 @@
           </b-form-invalid-feedback>
         </b-form-group>
       </ValidationProvider>
-      <ValidationProvider rules="required" name="carImgURL">
+      <ValidationProvider
+        :rules="{
+          required: true,
+          regex:
+            /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
+        }"
+        name="carImgURL"
+      >
         <b-form-group
           slot-scope="{ valid, errors }"
           label="Car Image URL"
@@ -62,7 +70,7 @@
         >
           <b-form-input
             type="text"
-            v-model="user.carImgURL"
+            v-model="car.carImgURL"
             :state="errors[0] ? false : valid ? true : null"
             placeholder="Enter car image URL"
           >
@@ -87,7 +95,7 @@ export default {
   },
   data() {
     return {
-      user: {
+      car: {
         carName: "",
         carDetails: "",
         carPrice: "",
@@ -97,7 +105,7 @@ export default {
   },
   methods: {
     handleSubmit() {
-      console.log(this.user);
+      console.log(this.car);
     },
   },
 };

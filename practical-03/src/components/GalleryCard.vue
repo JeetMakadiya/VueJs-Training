@@ -10,6 +10,7 @@
     <b-card-text>
       {{ cardDescription }}
     </b-card-text>
+    <!-- Info Button -->
     <b-button
       href="#"
       variant="primary"
@@ -18,17 +19,29 @@
     >
       Info
     </b-button>
+    <!-- available soon Button -->
     <b-button href="#" variant="primary" disabled v-else>
       available soon...
     </b-button>
-    <b-button href="#" variant="primary" class="ms-3"> Edit </b-button>
+    <!-- Edit Button -->
+    <b-button
+      href="#"
+      variant="primary"
+      class="ms-3"
+      v-b-modal="'modal-prevent-closing-' + cardId"
+      @click="editModalOpen(this.cardId)"
+    >
+      Edit
+    </b-button>
   </b-card>
-  <!-- </div> -->
 </template>
 
 <script>
+// import CarForm from "../components/CarForm.vue";
 export default {
   name: "GalleryCard",
-  props: ["cardTitle", "cardImage", "cardDescription", "price"],
+  components: {},
+  props: ["cardId", "cardTitle", "cardImage", "cardDescription", "price"],
+  methods: {},
 };
 </script>
