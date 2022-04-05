@@ -1,9 +1,13 @@
 <template>
   <div>
     <NavBar />
-    <section style="height: calc(100vh - 14vh)">
-      <div class="pt-5 d-flex justify-content-center">
-        <div class="ms-2 me-2" v-for="data in cardData" :key="data.id">
+    <section class="container" style="height: calc(100vh - 14vh)">
+      <div class="row mt-5">
+        <div
+          class="col-3 ms-2 me-2 d-flex align-items-stretch"
+          v-for="data in cardData"
+          :key="data.id"
+        >
           <GalleryCard
             :cardTitle="data.title"
             :cardImage="data.image"
