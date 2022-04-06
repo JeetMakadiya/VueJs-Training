@@ -8,12 +8,10 @@
   </nav>
 </template>
 <script>
-// import AddCarBtn from "./AddCarBtn.vue";
 import FormModal from "./FormModal.vue";
 export default {
   name: "NavBar",
   components: {
-    // AddCarBtn,
     FormModal,
   },
   data() {
