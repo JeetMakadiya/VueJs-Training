@@ -35,23 +35,29 @@ export default {
   data() {
     return {
       cardData: cardData,
-      newCarData: {},
-      latestData: cardData,
-      selectedCard: {},
     };
   },
   methods: {
     showCarPrice(price) {
       alert(`Car Price : ${price}`);
     },
-    editModalOpen(id) {
-      this.selectedCard = cardData.find((item) => item.id === id);
-    },
   },
   mounted() {
+    // add new card
     this.$root.$on("form-data", (data) => {
-      // this.newCarData = data;
-      this.cardData.push(data);
+      let carDetails = {
+        id: new Date().getTime().toString(),
+        title: data.carName,
+        image: data.carImgURL,
+        description: data.carDetails,
+        price: data.carPrice,
+      };
+      this.cardData.push(carDetails);
+    });
+    // delete card
+    this.$root.$on("delete-car-item", (cardId) => {
+      let cardItems = this.cardData.filter((item) => item.id !== cardId);
+      this.cardData = cardItems;
     });
   },
 };

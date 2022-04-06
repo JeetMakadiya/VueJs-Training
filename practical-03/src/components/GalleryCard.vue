@@ -4,44 +4,59 @@
     :title="cardTitle"
     tag="article"
     style="max-width: 20rem"
-    class="mb-2"
+    class="mb-2 position-relative"
   >
     <b-card-img :src="cardImage" alt="Image" height="150" bottom></b-card-img>
-    <b-card-text>
+    <b-card-text class="mb-5">
       {{ cardDescription }}
     </b-card-text>
-    <!-- Info Button -->
-    <b-button
-      href="#"
-      variant="primary"
-      @click="$emit('showCarPrice', price)"
-      v-if="price != null"
-    >
-      Info
-    </b-button>
-    <!-- available soon Button -->
-    <b-button href="#" variant="primary" disabled v-else>
-      available soon...
-    </b-button>
-    <!-- Edit Button -->
-    <b-button
-      href="#"
-      variant="primary"
-      class="ms-3"
-      v-b-modal="'modal-prevent-closing-' + cardId"
-      @click="editModalOpen(this.cardId)"
-    >
-      Edit
-    </b-button>
+    <div class="position-absolute bottom-0 mb-1">
+      <!-- Info Button -->
+      <b-button
+        href="#"
+        variant="primary"
+        @click="$emit('showCarPrice', price)"
+        v-if="price != null"
+      >
+        Info
+      </b-button>
+      <!-- available soon Button -->
+      <b-button href="#" variant="primary" disabled v-else>
+        available <br />soon
+      </b-button>
+      <!-- Edit Button -->
+      <b-button
+        href="#"
+        variant="primary"
+        class="ms-3"
+        v-b-modal="'modal-prevent-closing-' + cardId"
+        @click="editModalOpen(this.cardId)"
+      >
+        Edit
+      </b-button>
+      <!-- Delete Button -->
+      <b-button
+        href="#"
+        variant="primary"
+        class="ms-3"
+        v-b-modal="'modal-prevent-closing-' + cardId"
+        @click="handleDeleteCarItem(cardId)"
+      >
+        Delete
+      </b-button>
+    </div>
   </b-card>
 </template>
 
 <script>
-// import CarForm from "../components/CarForm.vue";
 export default {
   name: "GalleryCard",
   components: {},
   props: ["cardId", "cardTitle", "cardImage", "cardDescription", "price"],
-  methods: {},
+  methods: {
+    handleDeleteCarItem() {
+      this.$root.$emit("delete-car-item", this.cardId);
+    },
+  },
 };
 </script>
