@@ -4,7 +4,10 @@
       slot-scope="{ validate }"
       @submit.prevent="validate().then(handleSubmit)"
     >
-      <ValidationProvider rules="required|alpha_num" name="carName">
+      <ValidationProvider
+        rules="required|alpha_num|alpha_spaces"
+        name="carName"
+      >
         <b-form-group
           slot-scope="{ valid, errors }"
           label="Car Name"
@@ -97,18 +100,25 @@ export default {
   data() {
     return {
       car: {
-        carName: "",
-        carDetails: "",
-        carPrice: "",
-        carImgURL: "",
+        carId: this.formData.carId || "",
+        carName: this.formData.carName || "",
+        carDetails: this.formData.carDetails || "",
+        carPrice: this.formData.carPrice || "",
+        carImgURL: this.formData.carImgURL || "",
       },
       formModalId: this.modalId,
     };
   },
   methods: {
     handleSubmit() {
-      console.log(this.car);
       this.$root.$emit("form-data", this.car);
+      this.car = {
+        carId: "",
+        carName: "",
+        carDetails: "",
+        carPrice: "",
+        carImgURL: "",
+      };
       this.$bvModal.hide(this.formModalId);
     },
   },

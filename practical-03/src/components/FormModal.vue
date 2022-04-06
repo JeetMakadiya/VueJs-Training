@@ -1,6 +1,5 @@
 <template>
   <div>
-    <b-button variant="light" v-b-modal.modal-prevent-closing>Add Car</b-button>
     <b-modal
       id="modal-prevent-closing"
       ref="modal"
