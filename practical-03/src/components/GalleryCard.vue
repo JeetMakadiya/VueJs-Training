@@ -30,7 +30,7 @@
         variant="primary"
         class="ms-3"
         v-b-modal="'modal-prevent-closing-' + cardId"
-        @click="handleEditCardDetails(cardId)"
+        @click="$emit('editCard')"
       >
         Edit
       </b-button>
@@ -40,7 +40,7 @@
         variant="primary"
         class="ms-3"
         v-b-modal="'modal-prevent-closing-' + cardId"
-        @click="handleDeleteCarItem(cardId)"
+        @click="$emit('deleteCard')"
       >
         Delete
       </b-button>
@@ -53,13 +53,5 @@ export default {
   name: "GalleryCard",
   components: {},
   props: ["cardId", "cardTitle", "cardImage", "cardDescription", "price"],
-  methods: {
-    handleDeleteCarItem(cardId) {
-      this.$root.$emit("delete-car-item", cardId);
-    },
-    handleEditCardDetails(cardId) {
-      this.$root.$emit("edit-car-item", cardId);
-    },
-  },
 };
 </script>

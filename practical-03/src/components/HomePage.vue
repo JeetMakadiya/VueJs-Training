@@ -15,11 +15,13 @@
             :cardDescription="data.description"
             :price="data.price"
             @showCarPrice="showCarPrice"
+            @editCard="editCard(data)"
+            @deleteCard="deleteCard(data)"
           />
         </div>
       </div>
-      <FormModal :formData="selectedCardData" />
     </section>
+    <FormModal :formData="selectedCardData" />
   </div>
 </template>
 
@@ -37,41 +39,55 @@ export default {
   data() {
     return {
       cardData: cardData,
-      selectedCardData: {},
+      selectedCardData: {
+        // carName: "",
+        // carDetails: "",
+        // carPrice: "",
+        // carImgURL: "",
+      },
     };
   },
   methods: {
     showCarPrice(price) {
       alert(`Car Price : ${price}`);
     },
-    // handleDeleteCarItem(cardId) {
-    //   let cardItems = this.cardData.filter((item) => item.id !== cardId);
-    //   this.cardData = cardItems;
-    //   console.log(cardItems);
-    // },
+    editCard(data) {
+      this.selectedCardData = {
+        carId: data.id,
+        carName: data.title,
+        carDetails: data.description,
+        carPrice: data.price,
+        carImgURL: data.image,
+      };
+      this.$bvModal.show("modal-prevent-closing");
+      console.log(data);
+    },
+    deleteCard(data) {
+      let cardItems = this.cardData.filter((item) => item.id !== data.id);
+      this.cardData = cardItems;
+      alert("Deleted : " + data.title);
+    },
   },
   mounted() {
     // add new card
     this.$root.$on("form-data", (data) => {
-      let carDetails = {
-        id: new Date().getTime().toString(),
-        title: data.carName,
-        image: data.carImgURL,
-        description: data.carDetails,
-        price: data.carPrice,
-      };
-      this.cardData.push(carDetails);
-    });
-    // delete card
-    this.$root.$on("delete-car-item", (cardId) => {
-      let cardItems = this.cardData.filter((item) => item.id !== cardId);
-      this.cardData = cardItems;
-    });
-    // Edit card
-    this.$root.$on("edit-car-item", (cardId) => {
-      this.selectedCardData = this.cardData.find((item) => item.id === cardId);
-      this.$bvModal.show("modal-prevent-closing");
-      console.log(cardId);
+      if (data.carId !== "") {
+        let id = data.carId;
+        let index = this.cardData.findIndex((item) => item.id === id);
+        this.cardData[index].title = data.carName;
+        this.cardData[index].image = data.carImgURL;
+        this.cardData[index].description = data.carDetails;
+        this.cardData[index].price = data.carPrice;
+      } else {
+        let carDetails = {
+          id: new Date().getTime().toString(),
+          title: data.carName,
+          image: data.carImgURL,
+          description: data.carDetails,
+          price: data.carPrice,
+        };
+        this.cardData.push(carDetails);
+      }
     });
   },
 };
