@@ -10,7 +10,7 @@
       @ok="handleOk"
       hide-footer="true"
     >
-      <CarForm modalId="modal-prevent-closing" />
+      <CarForm modalId="modal-prevent-closing" :formData="formData" />
     </b-modal>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
       submittedNames: [],
     };
   },
-
+  props: ["formData"],
   components: { CarForm },
   methods: {
     checkFormValidity() {

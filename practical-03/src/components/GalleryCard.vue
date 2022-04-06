@@ -30,7 +30,7 @@
         variant="primary"
         class="ms-3"
         v-b-modal="'modal-prevent-closing-' + cardId"
-        @click="editModalOpen(this.cardId)"
+        @click="handleEditCardDetails(cardId)"
       >
         Edit
       </b-button>
@@ -54,8 +54,11 @@ export default {
   components: {},
   props: ["cardId", "cardTitle", "cardImage", "cardDescription", "price"],
   methods: {
-    handleDeleteCarItem() {
-      this.$root.$emit("delete-car-item", this.cardId);
+    handleDeleteCarItem(cardId) {
+      this.$root.$emit("delete-car-item", cardId);
+    },
+    handleEditCardDetails(cardId) {
+      this.$root.$emit("edit-car-item", cardId);
     },
   },
 };

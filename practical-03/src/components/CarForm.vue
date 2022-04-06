@@ -93,7 +93,7 @@ export default {
     ValidationObserver,
     ValidationProvider,
   },
-  props: ["modalId"],
+  props: ["modalId", "formData"],
   data() {
     return {
       car: {
