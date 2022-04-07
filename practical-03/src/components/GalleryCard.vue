@@ -16,7 +16,7 @@
         href="#"
         variant="primary"
         @click="$emit('showCarPrice', price)"
-        v-if="price != null"
+        v-if="price !== null"
       >
         Info
       </b-button>

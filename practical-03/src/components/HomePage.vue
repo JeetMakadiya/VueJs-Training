@@ -1,25 +1,28 @@
 <template>
   <div>
     <NavBar />
-    <section class="container-fluid">
-      <div class="pt-5 row">
-        <div
-          class="col-3 d-flex align-items-stretch ms-2 me-2"
-          v-for="data in cardData"
-          :key="data.id"
-        >
-          <GalleryCard
-            :cardId="data.id"
-            :cardTitle="data.title"
-            :cardImage="data.image"
-            :cardDescription="data.description"
-            :price="data.price"
-            @showCarPrice="showCarPrice"
-            @editCard="editCard(data)"
-            @deleteCard="deleteCard(data)"
-          />
-        </div>
-      </div>
+    <section>
+      <b-container class="bv-example-row">
+        <b-row class="pt-5">
+          <b-col
+            cols="3"
+            class="d-flex align-items-stretch ms-2 me-2"
+            v-for="data in cardData"
+            :key="data.id"
+          >
+            <GalleryCard
+              :cardId="data.id"
+              :cardTitle="data.title"
+              :cardImage="data.image"
+              :cardDescription="data.description"
+              :price="data.price"
+              @showCarPrice="showCarPrice"
+              @editCard="editCard(data)"
+              @deleteCard="deleteCard(data)"
+            />
+          </b-col>
+        </b-row>
+      </b-container>
     </section>
     <FormModal :formData="selectedCardData" />
   </div>
@@ -40,10 +43,11 @@ export default {
     return {
       cardData: cardData,
       selectedCardData: {
-        // carName: "",
-        // carDetails: "",
-        // carPrice: "",
-        // carImgURL: "",
+        carId: "",
+        carName: "",
+        carDetails: "",
+        carPrice: "",
+        carImgURL: "",
       },
     };
   },
@@ -69,16 +73,24 @@ export default {
     },
   },
   mounted() {
-    // add new card
     this.$root.$on("form-data", (data) => {
       if (data.carId !== "") {
+        // Edit Card
         let id = data.carId;
         let index = this.cardData.findIndex((item) => item.id === id);
         this.cardData[index].title = data.carName;
         this.cardData[index].image = data.carImgURL;
         this.cardData[index].description = data.carDetails;
         this.cardData[index].price = data.carPrice;
+        this.selectedCardData = {
+          carId: "",
+          carName: "",
+          carDetails: "",
+          carPrice: "",
+          carImgURL: "",
+        };
       } else {
+        // Add New Card
         let carDetails = {
           id: new Date().getTime().toString(),
           title: data.carName,

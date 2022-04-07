@@ -112,13 +112,6 @@ export default {
   methods: {
     handleSubmit() {
       this.$root.$emit("form-data", this.car);
-      this.car = {
-        carId: "",
-        carName: "",
-        carDetails: "",
-        carPrice: "",
-        carImgURL: "",
-      };
       this.$bvModal.hide(this.formModalId);
     },
   },
