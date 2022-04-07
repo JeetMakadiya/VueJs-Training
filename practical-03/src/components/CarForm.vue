@@ -111,7 +111,8 @@ export default {
   },
   methods: {
     handleSubmit() {
-      this.$root.$emit("form-data", this.car);
+      console.log(this.car);
+      this.$root.$emit("submitted-form-data", this.car);
       this.$bvModal.hide(this.formModalId);
     },
   },

@@ -6,6 +6,7 @@
       title="Add Car Details"
       @show="resetModal"
       @hidden="resetModal"
+      @hide="onHide"
       @ok="handleOk"
       hide-footer="true"
     >
@@ -41,6 +42,15 @@ export default {
       bvModalEvt.preventDefault();
       // Trigger submit handler
       this.handleSubmit();
+    },
+    onHide() {
+      this.$parent.selectedCardData = {
+        carId: "",
+        carName: "",
+        carDetails: "",
+        carPrice: "",
+        carImgURL: "",
+      };
     },
     handleSubmit() {
       // Exit when the form isn't valid
