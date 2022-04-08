@@ -1,18 +1,12 @@
 <template>
-  <ValidationObserver ref="observer">
-    <b-form
-      slot-scope="{ validate }"
-      @submit.prevent="validate().then(handleSubmit)"
-    >
+  <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
+    <b-form @submit.prevent="handleSubmit(onSubmit)">
       <ValidationProvider
-        rules="required|alpha_num|alpha_spaces"
+        rules="required|alpha_spaces"
         name="carName"
+        v-slot="{ errors }"
       >
-        <b-form-group
-          slot-scope="{ valid, errors }"
-          label="Car Name"
-          class="mb-2"
-        >
+        <b-form-group label="Car Name" class="mb-2">
           <b-form-input
             type="text"
             v-model="car.carName"
@@ -26,8 +20,12 @@
         </b-form-group>
       </ValidationProvider>
 
-      <ValidationProvider rules="required|min:30|max:120" name="carDetails">
-        <b-form-group slot-scope="{ errors }" label="Car Details" class="mb-2">
+      <ValidationProvider
+        rules="required|min:30|max:120"
+        name="carDetails"
+        v-slot="{ errors }"
+      >
+        <b-form-group label="Car Details" class="mb-2">
           <b-form-textarea
             v-model="car.carDetails"
             placeholder="Enter Car Details"
@@ -40,12 +38,12 @@
         </b-form-group>
       </ValidationProvider>
 
-      <ValidationProvider rules="required|integer" name="carPrice">
-        <b-form-group
-          slot-scope="{ valid, errors }"
-          label="Car Price"
-          class="mb-2"
-        >
+      <ValidationProvider
+        rules="required|integer"
+        name="carPrice"
+        v-slot="{ errors }"
+      >
+        <b-form-group label="Car Price" class="mb-2">
           <b-form-input
             type="text"
             v-model="car.carPrice"
@@ -65,12 +63,9 @@
             /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
         }"
         name="carImgURL"
+        v-slot="{ errors }"
       >
-        <b-form-group
-          slot-scope="{ valid, errors }"
-          label="Car Image URL"
-          class="mb-4"
-        >
+        <b-form-group label="Car Image URL" class="mb-4">
           <b-form-input
             type="text"
             v-model="car.carImgURL"
@@ -110,7 +105,7 @@ export default {
     };
   },
   methods: {
-    handleSubmit() {
+    onSubmit() {
       console.log(this.car);
       this.$root.$emit("submitted-form-data", this.car);
       this.$bvModal.hide(this.formModalId);
