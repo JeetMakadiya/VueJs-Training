@@ -95,11 +95,11 @@ export default {
   data() {
     return {
       car: {
-        carId: this.formData.carId || "",
-        carName: this.formData.carName || "",
-        carDetails: this.formData.carDetails || "",
-        carPrice: this.formData.carPrice || "",
-        carImgURL: this.formData.carImgURL || "",
+        carId: this.formData.formData.carId || "",
+        carName: this.formData.formData.carName || "",
+        carDetails: this.formData.formData.carDetails || "",
+        carPrice: this.formData.formData.carPrice || "",
+        carImgURL: this.formData.formData.carImgURL || "",
       },
       formModalId: this.modalId,
     };
@@ -107,7 +107,7 @@ export default {
   methods: {
     onSubmit() {
       console.log(this.car);
-      this.$root.$emit("submitted-form-data", this.car);
+      this.$emit("submittedFormData", this.car);
       this.$bvModal.hide(this.formModalId);
     },
   },
