@@ -3,7 +3,7 @@
     <NavBar />
     <section>
       <b-container class="bv-example-row">
-        <b-row class="pt-5">
+        <b-row class="pt-5 justify-content-md-center">
           <b-col
             cols="3"
             class="d-flex align-items-stretch ms-2 me-2"
@@ -24,7 +24,10 @@
         </b-row>
       </b-container>
     </section>
-    <FormModal :formData="selectedCardData" />
+    <FormModal
+      :formData="selectedCardData"
+      @submittedFormData="handleSubmittedFormData"
+    />
   </div>
 </template>
 
@@ -71,7 +74,7 @@ export default {
       this.cardData = cardItems;
       alert("Deleted : " + data.title);
     },
-    handleSubmittedData(data) {
+    handleSubmittedFormData(data) {
       console.log(data);
       if (data.carId !== "") {
         // Edit Card
@@ -102,34 +105,34 @@ export default {
     },
   },
   mounted() {
-    this.$root.$on("submitted-form-data", (data) => {
-      if (data.carId !== "") {
-        // Edit Card
-        let id = data.carId;
-        let index = this.cardData.findIndex((item) => item.id === id);
-        this.cardData[index].title = data.carName;
-        this.cardData[index].image = data.carImgURL;
-        this.cardData[index].description = data.carDetails;
-        this.cardData[index].price = data.carPrice;
-        this.selectedCardData = {
-          carId: "",
-          carName: "",
-          carDetails: "",
-          carPrice: "",
-          carImgURL: "",
-        };
-      } else {
-        // Add New Card
-        let carDetails = {
-          id: new Date().getTime().toString(),
-          title: data.carName,
-          image: data.carImgURL,
-          description: data.carDetails,
-          price: data.carPrice,
-        };
-        this.cardData.push(carDetails);
-      }
-    });
+    // this.$root.$on("submitted-form-data", (data) => {
+    //   if (data.carId !== "") {
+    //     // Edit Card
+    //     let id = data.carId;
+    //     let index = this.cardData.findIndex((item) => item.id === id);
+    //     this.cardData[index].title = data.carName;
+    //     this.cardData[index].image = data.carImgURL;
+    //     this.cardData[index].description = data.carDetails;
+    //     this.cardData[index].price = data.carPrice;
+    //     this.selectedCardData = {
+    //       carId: "",
+    //       carName: "",
+    //       carDetails: "",
+    //       carPrice: "",
+    //       carImgURL: "",
+    //     };
+    //   } else {
+    //     // Add New Card
+    //     let carDetails = {
+    //       id: new Date().getTime().toString(),
+    //       title: data.carName,
+    //       image: data.carImgURL,
+    //       description: data.carDetails,
+    //       price: data.carPrice,
+    //     };
+    //     this.cardData.push(carDetails);
+    //   }
+    // });
   },
 };
 </script>
