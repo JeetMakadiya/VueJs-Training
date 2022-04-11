@@ -38,11 +38,7 @@
         </b-form-group>
       </ValidationProvider>
 
-      <ValidationProvider
-        rules="required|integer"
-        name="carPrice"
-        v-slot="{ errors }"
-      >
+      <ValidationProvider rules="integer" name="carPrice" v-slot="{ errors }">
         <b-form-group label="Car Price" class="mb-2">
           <b-form-input
             type="text"
