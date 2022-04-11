@@ -56,9 +56,11 @@ export default {
     };
   },
   methods: {
+    // func. to show car price in alert box
     showCarPrice(price) {
       alert(`Car Price : ${price}`);
     },
+    // func. to Edit Card
     editCard(data) {
       this.selectedCardData = {
         carId: data.id,
@@ -68,48 +70,38 @@ export default {
         carImgURL: data.image,
       };
       this.$bvModal.show("modal-prevent-closing");
-      console.log(data);
     },
+    // Func. to Delete Card
     deleteCard(data) {
-      let cardItems = this.cardData.filter((item) => item.id !== data.id);
-      this.cardData = cardItems;
+      this.deleteCarData(data);
+      this.getCarData();
       alert("Deleted : " + data.title);
     },
+    // Func. to handle submitted form data
+    // Here If condition is for Edit Card and Else condition is for Add new card
     handleSubmittedFormData(data) {
       console.log(data);
       if (data.carId !== "") {
-        // Edit Card
-        let id = data.carId;
-        let index = this.cardData.findIndex((item) => item.id === id);
-        this.cardData[index].title = data.carName;
-        this.cardData[index].image = data.carImgURL;
-        this.cardData[index].description = data.carDetails;
-        this.cardData[index].price = data.carPrice;
-        this.selectedCardData = {
-          carId: "",
-          carName: "",
-          carDetails: "",
-          carPrice: "",
-          carImgURL: "",
-        };
+        // If for Edit Card
+        this.updateCarData(data);
+        this.getCarData();
+        // this.selectedCardData = {
+        //   carId: "",
+        //   carName: "",
+        //   carDetails: "",
+        //   carPrice: "",
+        //   carImgURL: "",
+        // };
       } else {
+        // Else for Add New Card
         this.addCarData(data);
         this.getCarData();
-        // Add New Card
-        // let carDetails = {
-        //   id: new Date().getTime().toString(),
-        //   title: data.carName,
-        //   image: data.carImgURL,
-        //   description: data.carDetails,
-        //   price: data.carPrice,
-        // };
-        // this.cardData.push(carDetails);
       }
     },
+    // Func. to get card data from API.
     getCarData() {
       Axios.get("https://testapi.io/api/dartya/resource/cardata").then(
         (response) => {
-          console.log(response.data.data);
           this.formatCarData(response.data.data);
         }
       );
@@ -125,9 +117,9 @@ export default {
         };
       });
     },
+    // Func. to ADD card data to API.
     addCarData(data) {
       Axios.post("https://testapi.io/api/dartya/resource/cardata", {
-        // id: new Date().getTime().toString(),
         name: data.carName,
         details: data.carDetails,
         image: data.carImgURL,
@@ -140,9 +132,38 @@ export default {
           console.log(e);
         });
     },
+    // Func. to Update specific data in API
+    updateCarData(data) {
+      Axios.put(
+        `https://testapi.io/api/dartya/resource/cardata/${data.carId}`,
+        {
+          name: data.carName,
+          details: data.carDetails,
+          image: data.carImgURL,
+          price: data.carPrice,
+        }
+      )
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    // Func. to delete specific data in API
+    deleteCarData(data) {
+      Axios.delete(`https://testapi.io/api/dartya/resource/cardata/${data.id}`)
+        .then((res) => {
+          console.log(res);
+          this.$forceUpdate();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
   },
   mounted() {
-    // this.getCarData();
+    this.getCarData();
   },
 };
 </script>
