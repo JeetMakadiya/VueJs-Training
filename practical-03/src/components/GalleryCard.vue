@@ -73,3 +73,4 @@ export default {
   props: ["cardId", "cardTitle", "cardImage", "cardDescription", "price"],
 };
 </script>
+<style></style>
