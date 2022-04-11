@@ -38,11 +38,7 @@
         </b-form-group>
       </ValidationProvider>
 
-      <ValidationProvider
-        rules="required|integer"
-        name="carPrice"
-        v-slot="{ errors }"
-      >
+      <ValidationProvider rules="integer" name="carPrice" v-slot="{ errors }">
         <b-form-group label="Car Price" class="mb-2">
           <b-form-input
             type="text"
@@ -95,11 +91,11 @@ export default {
   data() {
     return {
       car: {
-        carId: this.formData.carId || "",
-        carName: this.formData.carName || "",
-        carDetails: this.formData.carDetails || "",
-        carPrice: this.formData.carPrice || "",
-        carImgURL: this.formData.carImgURL || "",
+        carId: this.formData.formData.carId || "",
+        carName: this.formData.formData.carName || "",
+        carDetails: this.formData.formData.carDetails || "",
+        carPrice: this.formData.formData.carPrice || "",
+        carImgURL: this.formData.formData.carImgURL || "",
       },
       formModalId: this.modalId,
     };
@@ -107,7 +103,7 @@ export default {
   methods: {
     onSubmit() {
       console.log(this.car);
-      this.$root.$emit("submitted-form-data", this.car);
+      this.$emit("submittedFormData", this.car);
       this.$bvModal.hide(this.formModalId);
     },
   },
