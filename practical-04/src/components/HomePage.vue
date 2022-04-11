@@ -33,8 +33,9 @@
 
 <script>
 import GalleryCard from "./GalleryCard";
-import cardData from "../assets/Data/CardData.json";
+// import cardData from "../assets/Data/CardData.json";
 import FormModal from "./FormModal.vue";
+import Axios from "axios";
 
 export default {
   name: "HomePage",
@@ -44,7 +45,7 @@ export default {
   },
   data() {
     return {
-      cardData: cardData,
+      cardData: [],
       selectedCardData: {
         carId: "",
         carName: "",
@@ -92,47 +93,56 @@ export default {
           carImgURL: "",
         };
       } else {
+        this.addCarData(data);
+        this.getCarData();
         // Add New Card
-        let carDetails = {
-          id: new Date().getTime().toString(),
-          title: data.carName,
-          image: data.carImgURL,
-          description: data.carDetails,
-          price: data.carPrice,
-        };
-        this.cardData.push(carDetails);
+        // let carDetails = {
+        //   id: new Date().getTime().toString(),
+        //   title: data.carName,
+        //   image: data.carImgURL,
+        //   description: data.carDetails,
+        //   price: data.carPrice,
+        // };
+        // this.cardData.push(carDetails);
       }
+    },
+    getCarData() {
+      Axios.get("https://testapi.io/api/dartya/resource/cardata").then(
+        (response) => {
+          console.log(response.data.data);
+          this.formatCarData(response.data.data);
+        }
+      );
+    },
+    formatCarData(data) {
+      this.cardData = data.map((item) => {
+        return {
+          id: item.id,
+          title: item.name,
+          image: item.image,
+          description: item.details,
+          price: item.price,
+        };
+      });
+    },
+    addCarData(data) {
+      Axios.post("https://testapi.io/api/dartya/resource/cardata", {
+        // id: new Date().getTime().toString(),
+        name: data.carName,
+        details: data.carDetails,
+        image: data.carImgURL,
+        price: data.carPrice,
+      })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
   },
   mounted() {
-    // this.$root.$on("submitted-form-data", (data) => {
-    //   if (data.carId !== "") {
-    //     // Edit Card
-    //     let id = data.carId;
-    //     let index = this.cardData.findIndex((item) => item.id === id);
-    //     this.cardData[index].title = data.carName;
-    //     this.cardData[index].image = data.carImgURL;
-    //     this.cardData[index].description = data.carDetails;
-    //     this.cardData[index].price = data.carPrice;
-    //     this.selectedCardData = {
-    //       carId: "",
-    //       carName: "",
-    //       carDetails: "",
-    //       carPrice: "",
-    //       carImgURL: "",
-    //     };
-    //   } else {
-    //     // Add New Card
-    //     let carDetails = {
-    //       id: new Date().getTime().toString(),
-    //       title: data.carName,
-    //       image: data.carImgURL,
-    //       description: data.carDetails,
-    //       price: data.carPrice,
-    //     };
-    //     this.cardData.push(carDetails);
-    //   }
-    // });
+    // this.getCarData();
   },
 };
 </script>
