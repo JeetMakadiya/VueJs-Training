@@ -3,7 +3,21 @@
     <NavBar />
     <section>
       <b-container class="bv-example-row">
-        <b-row class="pt-5 justify-content-md-center">
+        <div class="mt-5">
+          <AlertBox
+            v-if="this.isLoading === false && this.errorMsg !== ''"
+            showAlert="true"
+            alertVariant="danger"
+            :alertMessage="this.errorMsg"
+          />
+          <AlertBox
+            v-else-if="this.isLoading === false && this.successMsg !== ''"
+            showAlert="true"
+            alertVariant="success"
+            :alertMessage="this.successMsg"
+          />
+        </div>
+        <b-row class="pt-3 justify-content-md-center">
           <b-col
             cols="3"
             class="d-flex align-items-stretch ms-2 me-2"
@@ -33,8 +47,8 @@
 
 <script>
 import GalleryCard from "./GalleryCard";
-// import cardData from "../assets/Data/CardData.json";
 import FormModal from "./FormModal.vue";
+import AlertBox from "./AlertBox.vue";
 import Axios from "axios";
 
 export default {
@@ -42,9 +56,12 @@ export default {
   components: {
     GalleryCard,
     FormModal,
+    AlertBox,
   },
   data() {
     return {
+      dismissSecs: 10,
+      dismissCountDown: 0,
       cardData: [],
       selectedCardData: {
         carId: "",
@@ -53,6 +70,9 @@ export default {
         carPrice: "",
         carImgURL: "",
       },
+      isLoading: false,
+      successMsg: "",
+      errorMsg: "",
     };
   },
   methods: {
@@ -72,39 +92,42 @@ export default {
       this.$bvModal.show("modal-prevent-closing");
     },
     // Func. to Delete Card
-    deleteCard(data) {
-      this.deleteCarData(data);
-      this.getCarData();
+    async deleteCard(data) {
+      await this.deleteCarData(data);
       alert("Deleted : " + data.title);
+      // this.showAlert();
+      await this.getCarData();
     },
     // Func. to handle submitted form data
     // Here If condition is for Edit Card and Else condition is for Add new card
-    handleSubmittedFormData(data) {
-      console.log(data);
+    async handleSubmittedFormData(data) {
       if (data.carId !== "") {
-        // If for Edit Card
-        this.updateCarData(data);
-        this.getCarData();
-        // this.selectedCardData = {
-        //   carId: "",
-        //   carName: "",
-        //   carDetails: "",
-        //   carPrice: "",
-        //   carImgURL: "",
-        // };
+        // if for Edit Card
+        await this.updateCarData(data);
+        await this.getCarData();
+        this.selectedCardData = {
+          carId: "",
+          carName: "",
+          carDetails: "",
+          carPrice: "",
+          carImgURL: "",
+        };
       } else {
-        // Else for Add New Card
-        this.addCarData(data);
-        this.getCarData();
+        // else for Add New Card
+        await this.addCarData(data);
+        await this.getCarData();
       }
     },
     // Func. to get card data from API.
-    getCarData() {
-      Axios.get("https://testapi.io/api/dartya/resource/cardata").then(
-        (response) => {
-          this.formatCarData(response.data.data);
-        }
-      );
+    async getCarData() {
+      try {
+        let response = await Axios.get(
+          "https://testapi.io/api/dartya/resource/cardata"
+        );
+        await this.formatCarData(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
     },
     formatCarData(data) {
       this.cardData = data.map((item) => {
@@ -118,48 +141,55 @@ export default {
       });
     },
     // Func. to ADD card data to API.
-    addCarData(data) {
-      Axios.post("https://testapi.io/api/dartya/resource/cardata", {
-        name: data.carName,
-        details: data.carDetails,
-        image: data.carImgURL,
-        price: data.carPrice,
-      })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-    // Func. to Update specific data in API
-    updateCarData(data) {
-      Axios.put(
-        `https://testapi.io/api/dartya/resource/cardata/${data.carId}`,
-        {
+    async addCarData(data) {
+      this.isLoading = true;
+      try {
+        await Axios.post("https://testapi.io/api/dartya/resource/cardata", {
           name: data.carName,
           details: data.carDetails,
           image: data.carImgURL,
           price: data.carPrice,
-        }
-      )
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((e) => {
-          console.log(e);
         });
+        this.isLoading = false;
+        this.successMsg = "Car data added successfully!";
+      } catch (error) {
+        this.isLoading = false;
+        this.errorMsg = "Car data not added!";
+      }
+    },
+    // Func. to Update specific data in API
+    async updateCarData(data) {
+      this.isLoading = true;
+      try {
+        await Axios.put(
+          `https://testapi.io/api/dartya/resource/cardata/${data.carId}`,
+          {
+            name: data.carName,
+            details: data.carDetails,
+            image: data.carImgURL,
+            price: data.carPrice,
+          }
+        );
+        this.isLoading = false;
+        this.successMsg = "Car data updated successfully!";
+      } catch (error) {
+        this.isLoading = false;
+        this.errorMsg = "Car data not updated!";
+      }
     },
     // Func. to delete specific data in API
-    deleteCarData(data) {
-      Axios.delete(`https://testapi.io/api/dartya/resource/cardata/${data.id}`)
-        .then((res) => {
-          console.log(res);
-          this.$forceUpdate();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    async deleteCarData(data) {
+      this.isLoading = true;
+      try {
+        await Axios.delete(
+          `https://testapi.io/api/dartya/resource/cardata/${data.id}`
+        );
+        this.isLoading = false;
+        this.successMsg = "Successfully Deleted!";
+      } catch (error) {
+        this.isLoading = false;
+        this.errorMsg = "Car is not deleted!";
+      }
     },
   },
   mounted() {
@@ -167,9 +197,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.galleryCardWrapper {
-  height: calc();
-}
-</style>
