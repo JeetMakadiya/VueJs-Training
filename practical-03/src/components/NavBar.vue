@@ -8,12 +8,8 @@
   </nav>
 </template>
 <script>
-// import FormModal from "./FormModal.vue";
 export default {
   name: "NavBar",
-  components: {
-    // FormModal,
-  },
   data() {
     return {
       navBarText: "Car Showroom",

@@ -104,41 +104,5 @@ export default {
       }
     },
   },
-  mounted() {
-    // this.$root.$on("submitted-form-data", (data) => {
-    //   if (data.carId !== "") {
-    //     // Edit Card
-    //     let id = data.carId;
-    //     let index = this.cardData.findIndex((item) => item.id === id);
-    //     this.cardData[index].title = data.carName;
-    //     this.cardData[index].image = data.carImgURL;
-    //     this.cardData[index].description = data.carDetails;
-    //     this.cardData[index].price = data.carPrice;
-    //     this.selectedCardData = {
-    //       carId: "",
-    //       carName: "",
-    //       carDetails: "",
-    //       carPrice: "",
-    //       carImgURL: "",
-    //     };
-    //   } else {
-    //     // Add New Card
-    //     let carDetails = {
-    //       id: new Date().getTime().toString(),
-    //       title: data.carName,
-    //       image: data.carImgURL,
-    //       description: data.carDetails,
-    //       price: data.carPrice,
-    //     };
-    //     this.cardData.push(carDetails);
-    //   }
-    // });
-  },
 };
 </script>
-
-<style>
-.galleryCardWrapper {
-  height: calc();
-}
-</style>
