@@ -102,7 +102,6 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log(this.car);
       this.$emit("submittedFormData", this.car);
       this.$bvModal.hide(this.formModalId);
     },
