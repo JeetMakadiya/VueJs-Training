@@ -1,5 +1,4 @@
 <template>
-  <!-- <div class="mt-1 mb-1 ms-1 me-1"> -->
   <b-card
     :title="cardTitle"
     tag="article"
