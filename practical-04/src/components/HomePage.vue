@@ -125,9 +125,7 @@ export default {
           "https://testapi.io/api/dartya/resource/cardata"
         );
         await this.formatCarData(response.data.data);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
     formatCarData(data) {
       this.cardData = data.map((item) => {
