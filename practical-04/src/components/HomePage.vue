@@ -2,7 +2,7 @@
   <div>
     <NavBar />
     <section>
-      <b-container class="bv-example-row">
+      <b-container>
         <div class="mt-5">
           <AlertBox
             v-if="this.isLoading === false && this.errorMsg !== ''"
@@ -18,11 +18,15 @@
           />
         </div>
         <b-row class="pt-3 justify-content-md-center">
+          <b-col cols="3" v-if="isLoading === true">
+            <p>Loading...</p>
+          </b-col>
           <b-col
             cols="3"
             class="d-flex align-items-stretch ms-2 me-2"
             v-for="data in cardData"
             :key="data.id"
+            v-else
           >
             <GalleryCard
               :cardId="data.id"
@@ -120,12 +124,27 @@ export default {
     },
     // Func. to get card data from API.
     async getCarData() {
+      this.isLoading = true;
       await Axios.get("https://testapi.io/api/dartya/resource/cardata")
         .then((res) => {
-          this.formatCarData(res.data.data);
+          if (
+            res &&
+            res.data !== null &&
+            res.data !== undefined &&
+            res.data.data !== null &&
+            res.data.data !== undefined
+          ) {
+            this.formatCarData(res.data.data);
+            this.isLoading = false;
+          } else {
+            this.isLoading = false;
+            this.errorMsg =
+              "Something went wrong! Looks like data is null or undefined!";
+          }
         })
-        .catch((err) => {
-          this.errorMsg = err;
+        .catch(() => {
+          this.isLoading = false;
+          this.errorMsg = "Oops! Something went wrong!";
         });
       // await this.formatCarData(response.data.data);
     },
