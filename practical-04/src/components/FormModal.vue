@@ -4,8 +4,6 @@
       id="modal-prevent-closing"
       ref="modal"
       title="Add Car Details"
-      @show="resetModal"
-      @hidden="resetModal"
       @hide="onHide"
       hide-footer="true"
     >
