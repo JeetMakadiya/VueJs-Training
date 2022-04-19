@@ -1,5 +1,5 @@
 <template>
-  <b-container class="bv-example-row">
+  <b-container>
     <b-row class="mt-5">
       <b-col cols="4"></b-col>
       <b-col cols="4">
@@ -55,6 +55,7 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
+import Axios from "axios";
 export default {
   name: "LoginForm",
   components: {
@@ -67,11 +68,25 @@ export default {
         userEmail: "",
         userPassword: "",
       },
+      isAuthenticated: false,
     };
   },
   methods: {
-    onSubmit() {
-      //   this.$emit("submittedFormData", this.car);
+    async onSubmit() {
+      await Axios.get("https://testapi.io/api/dartya/resource/users/1").then(
+        (res) => {
+          if (res !== null && res.data !== null && res.data !== undefined) {
+            let user = res.data;
+            if (
+              user.email === this.user.userEmail &&
+              user.password === this.user.userPassword
+            ) {
+              this.isAuthenticated = true;
+            }
+          }
+          console.log(res);
+        }
+      );
     },
   },
 };
