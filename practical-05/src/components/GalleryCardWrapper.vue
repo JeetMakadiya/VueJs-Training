@@ -116,9 +116,7 @@ export default {
     },
     // Func. to get card data from API.
     async getCarData() {
-      let response = await Axios.get(
-        "https://testapi.io/api/dartya/resource/cardata"
-      )
+      await Axios.get("https://testapi.io/api/dartya/resource/cardata")
         .then((res) => {
           this.formatCarData(res.data.data);
         })

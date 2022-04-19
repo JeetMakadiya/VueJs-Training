@@ -5,25 +5,18 @@
   >
     <h1 class="text-center text-light">{{ navBarText }}</h1>
     <div>
-      <b-button
-        variant="transparent"
-        class="me-3 text-light fw-bold fs-5 nav_btn"
-        v-b-modal.modal-prevent-closing
+      <router-link to="/" class="btn text-light fw-bold fs-5 nav_btn">
+        Home
+      </router-link>
+      <router-link to="/login" class="btn me-3 text-light fw-bold fs-5 nav_btn">
+        Login
+      </router-link>
+      <router-link
+        to="/register"
+        class="btn me-3 text-light fw-bold fs-5 nav_btn"
       >
-        <router-link>Home</router-link>
-      </b-button>
-      <b-button
-        variant="transparent"
-        class="me-3 text-light fw-bold fs-5 nav_btn"
-        v-b-modal.modal-prevent-closing
-        >Login</b-button
-      >
-      <b-button
-        variant="transparent"
-        class="me-3 text-light fw-bold fs-5 nav_btn"
-        v-b-modal.modal-prevent-closing
-        >Register</b-button
-      >
+        Register
+      </router-link>
       <b-button variant="light" v-b-modal.modal-prevent-closing
         >Add Car</b-button
       >
