@@ -120,12 +120,14 @@ export default {
     },
     // Func. to get card data from API.
     async getCarData() {
-      try {
-        let response = await Axios.get(
-          "https://testapi.io/api/dartya/resource/cardata"
-        );
-        await this.formatCarData(response.data.data);
-      } catch (error) {}
+      await Axios.get("https://testapi.io/api/dartya/resource/cardata")
+        .then((res) => {
+          this.formatCarData(res.data.data);
+        })
+        .catch((err) => {
+          this.errorMsg = err;
+        });
+      // await this.formatCarData(response.data.data);
     },
     formatCarData(data) {
       this.cardData = data.map((item) => {
@@ -141,53 +143,56 @@ export default {
     // Func. to ADD card data to API.
     async addCarData(data) {
       this.isLoading = true;
-      try {
-        await Axios.post("https://testapi.io/api/dartya/resource/cardata", {
-          name: data.carName,
-          details: data.carDetails,
-          image: data.carImgURL,
-          price: data.carPrice,
+      await Axios.post("https://testapi.io/api/dartya/resource/cardata", {
+        name: data.carName,
+        details: data.carDetails,
+        image: data.carImgURL,
+        price: data.carPrice,
+      })
+        .then(() => {
+          this.isLoading = false;
+          this.successMsg = "Car data added successfully!";
+        })
+        .catch(() => {
+          this.isLoading = false;
+          this.errorMsg = "Car data not added!";
         });
-        this.isLoading = false;
-        this.successMsg = "Car data added successfully!";
-      } catch (error) {
-        this.isLoading = false;
-        this.errorMsg = "Car data not added!";
-      }
     },
     // Func. to Update specific data in API
     async updateCarData(data) {
       this.isLoading = true;
-      try {
-        await Axios.put(
-          `https://testapi.io/api/dartya/resource/cardata/${data.carId}`,
-          {
-            name: data.carName,
-            details: data.carDetails,
-            image: data.carImgURL,
-            price: data.carPrice,
-          }
-        );
-        this.isLoading = false;
-        this.successMsg = "Car data updated successfully!";
-      } catch (error) {
-        this.isLoading = false;
-        this.errorMsg = "Car data not updated!";
-      }
+      await Axios.put(
+        `https://testapi.io/api/dartya/resource/cardata/${data.carId}`,
+        {
+          name: data.carName,
+          details: data.carDetails,
+          image: data.carImgURL,
+          price: data.carPrice,
+        }
+      )
+        .then(() => {
+          this.isLoading = false;
+          this.successMsg = "Car data updated successfully!";
+        })
+        .catch(() => {
+          this.isLoading = false;
+          this.errorMsg = "Car data not updated!";
+        });
     },
     // Func. to delete specific data in API
     async deleteCarData(data) {
       this.isLoading = true;
-      try {
-        await Axios.delete(
-          `https://testapi.io/api/dartya/resource/cardata/${data.id}`
-        );
-        this.isLoading = false;
-        this.successMsg = "Successfully Deleted!";
-      } catch (error) {
-        this.isLoading = false;
-        this.errorMsg = "Car is not deleted!";
-      }
+      await Axios.delete(
+        `https://testapi.io/api/dartya/resource/cardata/${data.id}`
+      )
+        .then(() => {
+          this.isLoading = false;
+          this.successMsg = "Successfully Deleted!";
+        })
+        .catch(() => {
+          this.isLoading = false;
+          this.errorMsg = "Car is not deleted!";
+        });
     },
   },
   mounted() {
