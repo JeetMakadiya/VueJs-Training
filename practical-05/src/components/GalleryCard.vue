@@ -16,7 +16,7 @@
           <b-button
             href="#"
             variant="primary"
-            @click="$emit('showCarPrice', price)"
+            @click="$emit('showCarDetails', cardId)"
             class="mb-2 w-100"
             v-if="price !== null"
           >

@@ -30,7 +30,7 @@
             :cardImage="data.image"
             :cardDescription="data.description"
             :price="data.price"
-            @showCarPrice="showCarPrice"
+            @showCarDetails="showCarDetails"
             @editCard="editCard(data)"
             @deleteCard="deleteCard(data)"
           />
@@ -75,8 +75,11 @@ export default {
   },
   methods: {
     // func. to show car price in alert box
-    showCarPrice(price) {
-      alert(`Car Price : ${price}`);
+    showCarDetails(id) {
+      this.$router.push({
+        name: "carDetails",
+        params: { carId: id },
+      });
     },
     // func. to Edit Card
     editCard(data) {
