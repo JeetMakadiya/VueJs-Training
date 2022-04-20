@@ -73,20 +73,21 @@ export default {
   },
   methods: {
     async onSubmit() {
-      await Axios.get("https://testapi.io/api/dartya/resource/users/1").then(
-        (res) => {
-          if (res !== null && res.data !== null && res.data !== undefined) {
-            let user = res.data;
-            if (
-              user.email === this.user.userEmail &&
-              user.password === this.user.userPassword
-            ) {
-              this.isAuthenticated = true;
-            }
-          }
-          console.log(res);
-        }
-      );
+      await Axios.post("https://testapi.io/api/dartya/resource/users", {
+        email: this.user.userEmail,
+        password: this.user.userPassword,
+      }).then((res) => {
+        // if (res !== null && res.data !== null && res.data !== undefined) {
+        //   let user = res.data;
+        //   if (
+        //     user.email === this.user.userEmail &&
+        //     user.password === this.user.userPassword
+        //   ) {
+        //     this.isAuthenticated = true;
+        //   }
+        // }
+        console.log(res);
+      });
     },
   },
 };

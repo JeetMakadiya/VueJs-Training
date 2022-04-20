@@ -1,6 +1,6 @@
 <template>
   <section>
-    <b-container class="bv-example-row">
+    <b-container>
       <div class="mt-5">
         <AlertBox
           v-if="this.isLoading === false && this.errorMsg !== ''"
@@ -16,11 +16,13 @@
         />
       </div>
       <b-row class="pt-3 justify-content-md-center">
+        <b-col cols="3" v-if="this.isLoading === true">Loading...</b-col>
         <b-col
           cols="3"
           class="d-flex align-items-stretch ms-2 me-2"
           v-for="data in cardData"
           :key="data.id"
+          v-else
         >
           <GalleryCard
             :cardId="data.id"

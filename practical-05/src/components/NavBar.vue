@@ -5,14 +5,20 @@
   >
     <h1 class="text-center text-light">{{ navBarText }}</h1>
     <div>
-      <router-link to="/" class="btn me-3 text-light fw-bold fs-5 nav_btn">
+      <router-link
+        :to="{ name: 'home' }"
+        class="btn me-3 text-light fw-bold fs-5 nav_btn"
+      >
         Home
       </router-link>
-      <router-link to="/login" class="btn me-3 text-light fw-bold fs-5 nav_btn">
+      <router-link
+        :to="{ name: 'login' }"
+        class="btn me-3 text-light fw-bold fs-5 nav_btn"
+      >
         Login
       </router-link>
       <router-link
-        to="/register"
+        :to="{ name: 'register' }"
         class="btn me-3 text-light fw-bold fs-5 nav_btn"
       >
         Register
