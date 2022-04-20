@@ -244,7 +244,7 @@ export default {
       await Axios.post("https://testapi.io/api/dartya/resource/users", user)
         .then(() => {
           this.isLoading = false;
-          this.$router.push("/login");
+          this.$router.push({ name: "login" });
         })
         .catch(() => {
           this.isLoading = false;
