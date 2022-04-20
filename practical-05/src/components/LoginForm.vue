@@ -3,6 +3,12 @@
     <b-row class="mt-5">
       <b-col cols="4"></b-col>
       <b-col cols="4">
+        <AlertBox
+          v-if="this.isLoading === false && this.errorMsg !== ''"
+          showAlert="true"
+          alertVariant="danger"
+          :alertMessage="this.errorMsg"
+        />
         <h1 class="text-center text-primary">Login</h1>
         <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
           <b-form @submit.prevent="handleSubmit(onSubmit)">
@@ -55,12 +61,14 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
+import AlertBox from "./AlertBox.vue";
 import Axios from "axios";
 export default {
   name: "LoginForm",
   components: {
     ValidationObserver,
     ValidationProvider,
+    AlertBox,
   },
   data() {
     return {
@@ -69,25 +77,41 @@ export default {
         userPassword: "",
       },
       isAuthenticated: false,
+      isLoading: false,
+      errorMsg: "",
     };
   },
   methods: {
-    async onSubmit() {
-      await Axios.post("https://testapi.io/api/dartya/resource/users", {
-        email: this.user.userEmail,
-        password: this.user.userPassword,
-      }).then((res) => {
-        // if (res !== null && res.data !== null && res.data !== undefined) {
-        //   let user = res.data;
-        //   if (
-        //     user.email === this.user.userEmail &&
-        //     user.password === this.user.userPassword
-        //   ) {
-        //     this.isAuthenticated = true;
-        //   }
-        // }
-        console.log(res);
-      });
+    onSubmit() {
+      this.userLogin(this.user);
+      this.user = {
+        userEmail: "",
+        userPassword: "",
+      };
+    },
+    async userLogin(data) {
+      this.isLoading = true;
+      Axios.get("https://testapi.io/api/dartya/resource/users/1")
+        .then((res) => {
+          this.isLoading = false;
+          console.log(res);
+          console.log(data);
+          if (res && res.data) {
+            if (
+              data.userEmail === res.data.email &&
+              data.userPassword === res.data.password
+            ) {
+              this.$router.push({ name: "home" });
+            } else {
+              this.errorMsg = "Invalid Credentials!";
+            }
+          } else {
+            this.errorMsg = "Oops,Something went wrong!";
+          }
+        })
+        .catch(() => {
+          this.errorMsg = "Oops,Something went wrong!";
+        });
     },
   },
 };
