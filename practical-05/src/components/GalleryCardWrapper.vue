@@ -118,11 +118,14 @@ export default {
     },
     // Func. to get card data from API.
     async getCarData() {
+      this.isLoading = true;
       await Axios.get("https://testapi.io/api/dartya/resource/cardata")
         .then((res) => {
+          this.isLoading = false;
           this.formatCarData(res.data.data);
         })
         .catch((err) => {
+          this.isLoading = false;
           this.errorMsg = err;
         });
     },
