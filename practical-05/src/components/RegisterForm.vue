@@ -3,9 +3,34 @@
     <b-row class="mt-5">
       <b-col cols="4"></b-col>
       <b-col cols="4">
+        <AlertBox
+          v-if="this.isLoading === false && this.errorMsg !== ''"
+          showAlert="true"
+          alertVariant="danger"
+          :alertMessage="this.errorMsg"
+        />
         <h1 class="text-center text-primary">Register</h1>
         <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
           <b-form @submit.prevent="handleSubmit(onSubmit)">
+            <!-- Name Field -->
+            <ValidationProvider
+              rules="required|alpha_spaces"
+              name="name"
+              v-slot="{ errors }"
+            >
+              <b-form-group label="User Name" class="mb-2">
+                <b-form-input
+                  type="text"
+                  v-model="user.name"
+                  :state="errors[0] ? false : valid ? true : null"
+                  placeholder="Enter user name"
+                >
+                </b-form-input>
+                <b-form-invalid-feedback>
+                  {{ errors[0] }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </ValidationProvider>
             <!-- Email Field -->
             <ValidationProvider
               rules="required|email"
@@ -85,6 +110,7 @@
                 </b-form-invalid-feedback>
               </b-form-group>
             </ValidationProvider>
+            <!-- gender field -->
             <ValidationProvider
               rules="required"
               name="gender"
@@ -102,8 +128,9 @@
                 </b-form-invalid-feedback>
               </b-form-group>
             </ValidationProvider>
+            <!-- age field -->
             <ValidationProvider
-              rules="required|digits"
+              rules="required|numeric"
               name="age"
               v-slot="{ errors }"
             >
@@ -141,15 +168,56 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
+import AlertBox from "./AlertBox.vue";
+import Axios from "axios";
 export default {
   name: "RegisterForm",
   components: {
     ValidationObserver,
     ValidationProvider,
+    AlertBox,
   },
   data() {
     return {
       user: {
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        selectedRole: null,
+        age: "",
+        dob: "",
+        roleOptions: [
+          { value: null, text: "Select Role" },
+          { value: "admin", text: "Admin" },
+          { value: "employee", text: "Employee" },
+          { value: "Customer", text: "Customer" },
+        ],
+        selectedGender: "male",
+        genderOptions: [
+          { value: "male", text: "Male" },
+          { value: "female", text: "Female" },
+          { value: "other", text: "Other" },
+        ],
+      },
+      isLoading: false,
+      errorMsg: "",
+    };
+  },
+  methods: {
+    onSubmit() {
+      let userDetails = {
+        name: this.user.name,
+        email: this.user.email,
+        role: this.user.selectedRole,
+        password: this.user.password,
+        age: this.user.age,
+        dob: this.user.dob,
+        gender: this.user.selectedGender,
+      };
+      this.registerUser(userDetails);
+      this.user = {
+        name: "",
         email: "",
         password: "",
         confirmPassword: "",
@@ -169,14 +237,20 @@ export default {
           { value: "female", text: "Female" },
           { value: "other", text: "Other" },
         ],
-      },
-    };
-  },
-  methods: {
-    onSubmit() {
-      //   this.$emit("submittedFormData", this.car);
+      };
+    },
+    async registerUser(user) {
+      this.isLoading = true;
+      await Axios.post("https://testapi.io/api/dartya/resource/users", user)
+        .then(() => {
+          this.isLoading = false;
+          this.$router.push("/login");
+        })
+        .catch(() => {
+          this.isLoading = false;
+          this.errorMsg = "Oops! Something went wrong";
+        });
     },
   },
 };
 </script>
-<style></style>
