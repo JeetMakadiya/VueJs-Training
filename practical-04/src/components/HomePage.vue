@@ -127,13 +127,7 @@ export default {
       this.isLoading = true;
       await Axios.get("https://testapi.io/api/dartya/resource/cardata")
         .then((res) => {
-          if (
-            res &&
-            res.data !== null &&
-            res.data !== undefined &&
-            res.data.data !== null &&
-            res.data.data !== undefined
-          ) {
+          if (res && res.data && res.data.data) {
             this.formatCarData(res.data.data);
             this.isLoading = false;
           } else {
