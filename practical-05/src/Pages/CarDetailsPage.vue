@@ -23,6 +23,11 @@
         </b-row>
       </b-card>
     </div>
+    <div class="d-flex justify-content-center mt-5">
+      <router-link :to="{ name: 'home' }" class="btn btn-primary">
+        Back To Home Page
+      </router-link>
+    </div>
   </section>
 </template>
 <script>
@@ -70,4 +75,3 @@ export default {
   },
 };
 </script>
-<style></style>
