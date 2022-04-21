@@ -1,7 +1,20 @@
 <template>
   <section>
+    <div class="m-auto mt-5 w-75">
+      <AlertBox
+        v-if="this.isLoading === false && this.errorMsg !== ''"
+        showAlert="true"
+        alertVariant="danger"
+        :alertMessage="this.errorMsg"
+      />
+    </div>
     <div class="d-flex justify-content-center mt-5">
-      <b-card no-body class="overflow-hidden" style="max-width: 1040px">
+      <b-card
+        v-if="this.errorMsg === ''"
+        no-body
+        class="overflow-hidden"
+        style="max-width: 1040px"
+      >
         <b-row no-gutters>
           <b-col md="6">
             <b-card-img
@@ -32,16 +45,17 @@
 </template>
 <script>
 import Axios from "axios";
+import AlertBox from "../components/AlertBox.vue";
 export default {
   name: "CarDetailsPage",
+  components: { AlertBox },
   data() {
     return {
       carData: {
-        image: "https://picsum.photos/400/400/?image=20",
-        name: "creta",
-        details:
-          "Lorem ipsum dolor, sit amet consectetur adipisicing elit.onsectetur adipisicing elit.onsectetur adipisicing elit.onsectetur adipisicing elit.",
-        price: "2500000",
+        image: "",
+        name: "",
+        details: "",
+        price: "",
       },
       isLoading: false,
       errorMsg: "",
@@ -52,6 +66,7 @@ export default {
       this.isLoading = true;
       await Axios.get(`https://testapi.io/api/dartya/resource/cardata/${id}`)
         .then((res) => {
+          console.log(res);
           this.isLoading = false;
           if (res && res.data) {
             this.carData = {
@@ -60,11 +75,13 @@ export default {
               details: res.data.details,
               price: res.data.price,
             };
+            this.errorMsg = "";
           } else {
             this.errorMsg = "Oops, something went wrong!";
           }
         })
         .catch(() => {
+          this.isLoading = false;
           this.errorMsg = "Oops, something went wrong!";
         });
     },
