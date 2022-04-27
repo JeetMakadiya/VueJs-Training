@@ -1,11 +1,14 @@
 <template>
-  <div>
+  <div v-if="true">
     <b-modal
       id="modal-prevent-closing"
-      ref="modal"
+      ref="formModal"
       title="Add Car Details"
+      @shown="shownModal"
+      @hidden="hideModal"
       @hide="onHide"
       hide-footer="true"
+      no-fade
     >
       <CarForm
         modalId="modal-prevent-closing"
@@ -37,6 +40,16 @@ export default {
         carImgURL: "",
       };
     },
+    shownModal() {
+      let modal = this.$refs.formModal;
+      modal.parentElement.parentElement.classList.remove("hidden");
+      modal.classList.add("slideInLeft");
+      modal.classList.add("animated");
+    },
+    hideModal() {},
   },
 };
 </script>
+<style>
+@import "animate.css";
+</style>

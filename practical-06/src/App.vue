@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <NavBar />
-    <router-view></router-view>
+    <transition name="slideLeft">
+      <router-view appear :key="$router.path"></router-view>
+    </transition>
   </div>
 </template>
 <script>
@@ -10,6 +12,7 @@ export default {
 };
 </script>
 <style>
+/* @import "vue2-animate/dist/vue2-animate.min.css"; */
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -26,7 +29,6 @@ nav a {
   font-weight: bold;
   color: #2c3e50;
 }
-
 nav a.router-link-exact-active {
   color: #42b983;
 }
