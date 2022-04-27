@@ -23,7 +23,12 @@
       >
         Register
       </router-link>
-      <b-button variant="light" v-b-modal.modal-prevent-closing>
+      <b-button
+        pill
+        variant="outline-light"
+        class="addCarBtn"
+        v-b-modal.modal-prevent-closing
+      >
         Add Car
       </b-button>
     </div>
@@ -42,6 +47,9 @@ export default {
 </script>
 
 <style>
+.nav_btn {
+  transition: all 0.4s linear;
+}
 .nav_btn:hover {
   color: white !important;
   background-color: rgba(255, 255, 255, 0.2);
@@ -49,5 +57,8 @@ export default {
 .nav_btn.router-link-exact-active {
   color: black !important;
   background-color: white !important;
+}
+.addCarBtn:hover {
+  transition: all 0.5s linear;
 }
 </style>

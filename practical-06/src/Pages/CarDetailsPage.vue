@@ -9,6 +9,7 @@
       />
     </div>
     <div class="d-flex justify-content-center mt-5">
+      <div v-if="this.isLoading === true">Loading...</div>
       <b-card
         v-if="this.errorMsg === ''"
         no-body
