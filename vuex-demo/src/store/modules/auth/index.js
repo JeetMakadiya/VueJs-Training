@@ -1,10 +1,10 @@
 import Vue from "vue";
+import Axios from "axios";
 
 let lastId = 3;
 
 // local state
 const state = {
-  prj_name: "vue prj",
   users: [
     {
       id: 1,
@@ -67,13 +67,28 @@ const mutations = {
 
 const actions = {
   // first param is context object
-  addUser({ commit }, data) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        commit("ADD_USER", data);
-        resolve();
-      }, 250);
-    });
+  loginUser({ commit }, data) {
+    return Axios.get("https://testapi.io/api/dartya/resource/users/1")
+      .then((res) => {
+        this.isLoading = false;
+        console.log(res);
+        console.log(data);
+        if (res && res.data) {
+          if (
+            data.userEmail === res.data.email &&
+            data.userPassword === res.data.password
+          ) {
+            this.$router.push({ name: "home" });
+          } else {
+            this.errorMsg = "Invalid Credentials!";
+          }
+        } else {
+          this.errorMsg = "Oops,Something went wrong!";
+        }
+      })
+      .catch(() => {
+        this.errorMsg = "Oops,Something went wrong!";
+      });
   },
 
   deleteUser({ commit }, userId) {
