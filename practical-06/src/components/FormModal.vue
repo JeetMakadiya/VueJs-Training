@@ -1,21 +1,20 @@
 <template>
-  <div v-if="true">
-    <b-modal
-      id="modal-prevent-closing"
-      ref="formModalRef"
-      title="Add Car Details"
-      @shown="shownModal"
-      @hide="onHide"
-      hide-footer="true"
-      no-fade
-    >
-      <CarForm
-        modalId="modal-prevent-closing"
-        :formData="$props"
-        v-on="$listeners"
-      />
-    </b-modal>
-  </div>
+  <b-modal
+    id="modal-prevent-closing"
+    ref="formModalRef"
+    title="Add Car Details"
+    modal-class="hidden"
+    @shown="shownModal"
+    @hide="onHide"
+    hide-footer="true"
+    no-fade
+  >
+    <CarForm
+      modalId="modal-prevent-closing"
+      :formData="$props"
+      v-on="$listeners"
+    />
+  </b-modal>
 </template>
 
 <script>
@@ -41,7 +40,7 @@ export default {
     },
     shownModal() {
       let modal = document.getElementById("modal-prevent-closing");
-      modal.parentElement.parentElement.classList.remove("hidden");
+      modal.classList.remove("hidden");
       modal.classList.add("slideInDown");
       modal.classList.add("animated");
     },
@@ -51,6 +50,6 @@ export default {
 <style>
 @import "animate.css";
 .hidden {
-  display: none;
+  display: none !important;
 }
 </style>
