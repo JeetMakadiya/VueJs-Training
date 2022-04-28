@@ -2,7 +2,7 @@
   <div v-if="true">
     <b-modal
       id="modal-prevent-closing"
-      ref="formModal"
+      ref="formModalRef"
       title="Add Car Details"
       @shown="shownModal"
       @hidden="hideModal"
@@ -41,15 +41,28 @@ export default {
       };
     },
     shownModal() {
-      let modal = this.$refs.formModal;
+      // let modal = this.$refs.formModal;
+      let modal = document.getElementById("modal-prevent-closing");
       modal.parentElement.parentElement.classList.remove("hidden");
-      modal.classList.add("slideInLeft");
+      modal.classList.add("slideInDown");
       modal.classList.add("animated");
     },
-    hideModal() {},
+    hideModal(event) {
+      let modal = document.getElementById("modal-prevent-closing");
+      event.preventDefault();
+      modal.classList.add("slideInDown");
+      // // setTimeout(() => {
+      // this.$refs.formModalRef.hide();
+      // modal.parentElement.parentElement.classList.add("hidden");
+      // //   console.log("test");
+      // // }, 1000);
+    },
   },
 };
 </script>
 <style>
 @import "animate.css";
+.hidden {
+  display: none;
+}
 </style>
