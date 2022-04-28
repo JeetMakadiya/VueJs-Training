@@ -14,6 +14,7 @@ import en from "vee-validate/dist/locale/en.json";
 import * as rules from "vee-validate/dist/rules";
 import router from "./router";
 import "vue2-animate/dist/vue2-animate.min.css";
+import store from "./store";
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
@@ -32,5 +33,6 @@ Vue.component("ValidationObserver", ValidationObserver);
 
 new Vue({
   router,
+  store,
   render: (h) => h(App),
 }).$mount("#app");
