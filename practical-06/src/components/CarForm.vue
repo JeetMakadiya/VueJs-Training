@@ -74,8 +74,15 @@
           </b-form-invalid-feedback>
         </b-form-group>
       </ValidationProvider>
-
-      <b-button block type="submit" variant="primary">Submit</b-button>
+      <b-button
+        block
+        type="submit"
+        variant="primary"
+        :class="{ shake: disabledSubmitBtn }"
+        @click="animateBtn"
+      >
+        Submit
+      </b-button>
     </b-form>
   </ValidationObserver>
 </template>
@@ -98,12 +105,19 @@ export default {
         carImgURL: this.formData.formData.carImgURL || "",
       },
       formModalId: this.modalId,
+      disabledSubmitBtn: false,
     };
   },
   methods: {
     onSubmit() {
       this.$emit("submittedFormData", this.car);
       this.$bvModal.hide(this.formModalId);
+    },
+    animateBtn() {
+      this.disabledSubmitBtn = true;
+      setTimeout(() => {
+        this.disabledSubmitBtn = false;
+      }, 1500);
     },
   },
 };
@@ -116,5 +130,32 @@ form {
 }
 .form-group > label {
   font-weight: 600;
+}
+.shake {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
 }
 </style>
