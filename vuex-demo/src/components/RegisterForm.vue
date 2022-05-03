@@ -162,14 +162,13 @@
           </b-form>
         </ValidationObserver>
       </b-col>
-      <b-col cols="4"> </b-col>
+      <b-col cols="4"></b-col>
     </b-row>
   </b-container>
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import AlertBox from "./AlertBox.vue";
-import Axios from "axios";
 export default {
   name: "RegisterForm",
   components: {
@@ -200,22 +199,19 @@ export default {
           { value: "other", text: "Other" },
         ],
       },
-      isLoading: false,
-      errorMsg: "",
     };
+  },
+  computed: {
+    isLoading() {
+      return this.$store.state.auth.isLoading;
+    },
+    errorMsg() {
+      return this.$store.state.auth.errorMsg;
+    },
   },
   methods: {
     onSubmit() {
-      let userDetails = {
-        name: this.user.name,
-        email: this.user.email,
-        role: this.user.selectedRole,
-        password: this.user.password,
-        age: this.user.age,
-        dob: this.user.dob,
-        gender: this.user.selectedGender,
-      };
-      this.registerUser(userDetails);
+      this.$store.dispatch("registerUser", this.user);
       this.user = {
         name: "",
         email: "",
@@ -238,18 +234,6 @@ export default {
           { value: "other", text: "Other" },
         ],
       };
-    },
-    async registerUser(user) {
-      this.isLoading = true;
-      await Axios.post("https://testapi.io/api/dartya/resource/users", user)
-        .then(() => {
-          this.isLoading = false;
-          this.$router.push({ name: "login" });
-        })
-        .catch(() => {
-          this.isLoading = false;
-          this.errorMsg = "Oops! Something went wrong";
-        });
     },
   },
 };
