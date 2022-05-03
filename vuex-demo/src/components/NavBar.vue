@@ -31,7 +31,6 @@
       >
         Add Car
       </b-button>
-      <p>{{ this.$store.state.usersData.prj_name }}</p>
     </div>
   </nav>
 </template>

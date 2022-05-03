@@ -69,6 +69,7 @@ const actions = {
   // first param is context object
   addUser({ commit }, data) {
     return new Promise((resolve) => {
+      console.log(data);
       setTimeout(() => {
         commit("ADD_USER", data);
         resolve();

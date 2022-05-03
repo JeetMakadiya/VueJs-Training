@@ -62,7 +62,6 @@
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import AlertBox from "./AlertBox.vue";
-import Axios from "axios";
 export default {
   name: "LoginForm",
   components: {
@@ -76,42 +75,23 @@ export default {
         userEmail: "",
         userPassword: "",
       },
-      isAuthenticated: false,
-      isLoading: false,
-      errorMsg: "",
     };
+  },
+  computed: {
+    isLoading() {
+      return this.$store.state.auth.isLoading;
+    },
+    errorMsg() {
+      return this.$store.state.auth.errorMsg;
+    },
   },
   methods: {
     onSubmit() {
-      this.userLogin(this.user);
+      this.$store.dispatch("loginUser", this.user);
       this.user = {
         userEmail: "",
         userPassword: "",
       };
-    },
-    async userLogin(data) {
-      this.isLoading = true;
-      Axios.get("https://testapi.io/api/dartya/resource/users/1")
-        .then((res) => {
-          this.isLoading = false;
-          console.log(res);
-          console.log(data);
-          if (res && res.data) {
-            if (
-              data.userEmail === res.data.email &&
-              data.userPassword === res.data.password
-            ) {
-              this.$router.push({ name: "home" });
-            } else {
-              this.errorMsg = "Invalid Credentials!";
-            }
-          } else {
-            this.errorMsg = "Oops,Something went wrong!";
-          }
-        })
-        .catch(() => {
-          this.errorMsg = "Oops,Something went wrong!";
-        });
     },
   },
 };

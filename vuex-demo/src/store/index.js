@@ -1,14 +1,16 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import usersData from "./modules/users";
+import users from "./modules/users";
 import auth from "./modules/auth";
+import cars from "./modules/cars";
 
 Vue.use(Vuex);
-
-export default new Vuex.Store({
+const store = new Vuex.Store({
   strict: true,
   modules: {
-    usersData,
     auth,
+    users,
+    cars,
   },
 });
+export default store;
