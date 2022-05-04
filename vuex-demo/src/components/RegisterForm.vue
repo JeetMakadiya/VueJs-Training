@@ -16,7 +16,7 @@
             <ValidationProvider
               rules="required|alpha_spaces"
               name="name"
-              v-slot="{ errors }"
+              v-slot="{ errors, valid }"
             >
               <b-form-group label="User Name" class="mb-2">
                 <b-form-input
@@ -35,7 +35,7 @@
             <ValidationProvider
               rules="required|email"
               name="email"
-              v-slot="{ errors }"
+              v-slot="{ errors, valid }"
             >
               <b-form-group label="E-mail" class="mb-2">
                 <b-form-input
@@ -57,7 +57,7 @@
                 regex: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/,
               }"
               name="password"
-              v-slot="{ errors }"
+              v-slot="{ errors, valid }"
             >
               <b-form-group label="Password" class="mb-2">
                 <b-form-input
@@ -79,7 +79,7 @@
                 regex: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/,
               }"
               name="confirmPassword"
-              v-slot="{ errors }"
+              v-slot="{ errors, valid }"
             >
               <b-form-group label="Confirm Password" class="mb-2">
                 <b-form-input
@@ -132,7 +132,7 @@
             <ValidationProvider
               rules="required|numeric"
               name="age"
-              v-slot="{ errors }"
+              v-slot="{ errors, valid }"
             >
               <b-form-group label="Age" class="mb-2">
                 <b-form-input
