@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$store.dispatch("loginUser", this.user);
+      this.$store.dispatch("auth/loginUser", this.user);
       this.user = {
         userEmail: "",
         userPassword: "",
