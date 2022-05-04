@@ -6,7 +6,7 @@
       title="Add Car Details"
       @shown="shownModal"
       @hide="onHide"
-      hide-footer="true"
+      hide-footer
       no-fade
     >
       <CarForm
@@ -31,17 +31,18 @@ export default {
   components: { CarForm },
   methods: {
     onHide() {
-      this.$parent.selectedCardData = {
+      let selectedCarData = {
         carId: "",
         carName: "",
         carDetails: "",
         carPrice: "",
         carImgURL: "",
       };
+      this.$store.commit("cars/setSelectedCarData", selectedCarData);
     },
     shownModal() {
       let modal = document.getElementById("modal-prevent-closing");
-      modal.parentElement.parentElement.classList.remove("hidden");
+      modal.classList.remove("hidden");
       modal.classList.add("slideInDown");
       modal.classList.add("animated");
     },
@@ -51,6 +52,6 @@ export default {
 <style>
 @import "animate.css";
 .hidden {
-  display: none;
+  display: none !important;
 }
 </style>

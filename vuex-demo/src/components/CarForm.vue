@@ -4,7 +4,7 @@
       <ValidationProvider
         rules="required|alpha_spaces"
         name="carName"
-        v-slot="{ errors }"
+        v-slot="{ errors, valid }"
       >
         <b-form-group label="Car Name" class="mb-2">
           <b-form-input
@@ -23,7 +23,7 @@
       <ValidationProvider
         rules="required|min:30|max:120"
         name="carDetails"
-        v-slot="{ errors }"
+        v-slot="{ errors, valid }"
       >
         <b-form-group label="Car Details" class="mb-2">
           <b-form-textarea
@@ -38,7 +38,11 @@
         </b-form-group>
       </ValidationProvider>
 
-      <ValidationProvider rules="integer" name="carPrice" v-slot="{ errors }">
+      <ValidationProvider
+        rules="integer"
+        name="carPrice"
+        v-slot="{ errors, valid }"
+      >
         <b-form-group label="Car Price" class="mb-2">
           <b-form-input
             type="text"
@@ -59,7 +63,7 @@
             /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
         }"
         name="carImgURL"
-        v-slot="{ errors }"
+        v-slot="{ errors, valid }"
       >
         <b-form-group label="Car Image URL" class="mb-4">
           <b-form-input
@@ -98,19 +102,36 @@ export default {
   data() {
     return {
       car: {
-        carId: this.formData.formData.carId || "",
-        carName: this.formData.formData.carName || "",
-        carDetails: this.formData.formData.carDetails || "",
-        carPrice: this.formData.formData.carPrice || "",
-        carImgURL: this.formData.formData.carImgURL || "",
+        carId: this.$store.state.cars.selectedCarData.carId || "",
+        carName: this.$store.state.cars.selectedCarData.carName || "",
+        carDetails: this.$store.state.cars.selectedCarData.carDetails || "",
+        carPrice: this.$store.state.cars.selectedCarData.carPrice || "",
+        carImgURL: this.$store.state.cars.selectedCarData.carImgURL || "",
       },
       formModalId: this.modalId,
       disabledSubmitBtn: false,
     };
   },
   methods: {
-    onSubmit() {
-      this.$emit("submittedFormData", this.car);
+    async onSubmit() {
+      if (this.car.carId !== "") {
+        // if for Edit Card
+        await this.$store.dispatch("cars/updateCarData", this.car);
+        await this.$store.dispatch("cars/getCarData");
+
+        let selectedCarData = {
+          carId: "",
+          carName: "",
+          carDetails: "",
+          carPrice: "",
+          carImgURL: "",
+        };
+        this.$store.commit("cars/setSelectedCarData", selectedCarData);
+      } else {
+        // else for Add New Card
+        await this.$store.dispatch("cars/addCarData", this.car);
+        await this.$store.dispatch("cars/getCarData");
+      }
       this.$bvModal.hide(this.formModalId);
     },
     animateBtn() {
