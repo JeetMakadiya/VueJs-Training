@@ -9,6 +9,15 @@ const state = {
 
 const getters = {
   // state is module's local state
+  getUsers(state) {
+    return state.users;
+  },
+  getIsLoading(state) {
+    return state.isLoading;
+  },
+  getErrorMsg(state) {
+    return state.errorMsg;
+  },
 };
 
 const mutations = {
@@ -21,7 +30,6 @@ const mutations = {
 };
 
 const actions = {
-  // first param is context object
   async loginUser({ commit }, data) {
     commit("setLoading", true);
     commit("setErrorMsg", "");
@@ -68,7 +76,7 @@ const actions = {
       })
       .catch(() => {
         commit("setLoading", false);
-        commit("setErrorMsg", "Oops! Something went wrong");
+        commit("setErrorMsg", "Oops! Something went wrong!");
       });
   },
 };

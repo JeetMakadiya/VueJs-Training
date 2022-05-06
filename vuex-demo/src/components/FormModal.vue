@@ -24,7 +24,6 @@ export default {
   data() {
     return {
       name: "FormModal",
-      modalTitle: "",
     };
   },
   props: ["formData"],

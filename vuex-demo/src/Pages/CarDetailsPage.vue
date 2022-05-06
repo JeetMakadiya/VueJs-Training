@@ -38,58 +38,76 @@
       </b-card>
     </div>
     <div class="d-flex justify-content-center mt-5">
+      <b-button
+        href="#"
+        variant="primary"
+        class="me-3"
+        @click.prevent="editCar"
+      >
+        Edit
+      </b-button>
+      <b-button
+        href="#"
+        variant="primary"
+        class="me-3"
+        @click.prevent="deleteCar()"
+      >
+        Delete
+      </b-button>
       <router-link :to="{ name: 'home' }" class="btn btn-primary">
         Back To Home Page
       </router-link>
     </div>
+    <FormModal :formData="this.selectedCarData" />
   </section>
 </template>
 <script>
-import Axios from "axios";
 import AlertBox from "../components/AlertBox.vue";
+import FormModal from "../components/FormModal.vue";
 export default {
   name: "CarDetailsPage",
-  components: { AlertBox },
+  components: { AlertBox, FormModal },
   data() {
-    return {
-      carData: {
-        image: "",
-        name: "",
-        details: "",
-        price: "",
-      },
-      isLoading: false,
-      errorMsg: "",
-    };
+    return {};
+  },
+  computed: {
+    carData() {
+      return this.$store.getters["cars/getCarData"];
+    },
+    selectedCarData() {
+      return this.$store.getters["cars/getSelectedCarData"];
+    },
+    isLoading() {
+      return this.$store.getters["cars/getIsLoading"];
+    },
+    errorMsg() {
+      return this.$store.getters["cars/getErrorMsg"];
+    },
   },
   methods: {
-    async getCarData(id) {
-      this.isLoading = true;
-      await Axios.get(`https://testapi.io/api/dartya/resource/cardata/${id}`)
-        .then((res) => {
-          console.log(res);
-          this.isLoading = false;
-          if (res && res.data) {
-            this.carData = {
-              image: res.data.image,
-              name: res.data.name,
-              details: res.data.details,
-              price: res.data.price,
-            };
-            this.errorMsg = "";
-          } else {
-            this.errorMsg = "Oops, something went wrong!";
-          }
-        })
-        .catch(() => {
-          this.isLoading = false;
-          this.errorMsg = "Oops, something went wrong!";
-        });
+    async editCar() {
+      let selectedData = {
+        carId: this.carData.id,
+        carName: this.carData.name,
+        carDetails: this.carData.details,
+        carPrice: this.carData.price,
+        carImgURL: this.carData.image,
+      };
+      await this.$store.commit("cars/setSelectedCarData", selectedData);
+      this.$bvModal.show("modal-prevent-closing");
+    },
+    async deleteCar() {
+      console.log(this.carData);
+      let res = await this.$store.dispatch("cars/deleteCar", this.carData);
+      if (res !== "error") {
+        this.$router.push({ name: "home" });
+        this.$store.dispatch("cars/getCarsData");
+      }
     },
   },
   created() {
     const id = this.$route.params.carId;
-    this.getCarData(id);
+    this.$store.dispatch("cars/getCarData", id);
   },
 };
 </script>
