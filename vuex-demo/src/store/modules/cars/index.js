@@ -2,7 +2,8 @@ import Axios from "axios";
 
 // local state
 const state = {
-  carData: [],
+  carsData: [],
+  carData: {},
   selectedCarData: {
     carId: "",
     carName: "",
@@ -16,10 +17,30 @@ const state = {
 };
 
 const getters = {
-  // state is module's local state
+  getCarsData(state) {
+    return state.carsData;
+  },
+  getCarData(state) {
+    return state.carData;
+  },
+  getSelectedCarData(state) {
+    return state.selectedCarData;
+  },
+  getIsLoading(state) {
+    return state.isLoading;
+  },
+  getSuccessMsg(state) {
+    return state.successMsg;
+  },
+  getErrorMsg(state) {
+    return state.errorMsg;
+  },
 };
 
 const mutations = {
+  setCarsData(state, data) {
+    state.carsData = data;
+  },
   setCarData(state, data) {
     state.carData = data;
   },
@@ -38,7 +59,7 @@ const mutations = {
 };
 
 const actions = {
-  async getCarData({ commit }) {
+  async getCarsData({ commit }) {
     commit("setLoading", true);
     commit("setSuccessMsg", "");
     commit("setErrorMsg", "");
@@ -54,12 +75,36 @@ const actions = {
             price: item.price,
           };
         });
-        commit("setCarData", formatedData);
+        commit("setCarsData", formatedData);
       })
       .catch((err) => {
         this.errorMsg = err;
         commit("setLoading", false);
         commit("setErrorMsg", err);
+      });
+  },
+  async getCarData({ commit }, id) {
+    commit("setLoading", true);
+    await Axios.get(`https://testapi.io/api/dartya/resource/cardata/${id}`)
+      .then((res) => {
+        commit("setLoading", false);
+        if (res && res.data) {
+          let carData = {
+            id: res.data.id,
+            image: res.data.image,
+            name: res.data.name,
+            details: res.data.details,
+            price: res.data.price,
+          };
+          commit("setCarData", carData);
+          commit("setErrorMsg", "");
+        } else {
+          commit("setErrorMsg", "Oops, something went wrong!");
+        }
+      })
+      .catch(() => {
+        commit("setLoading", false);
+        commit("setErrorMsg", "Oops, something went wrong!");
       });
   },
   async addNewCar({ commit }, data) {
@@ -113,14 +158,14 @@ const actions = {
       .then(() => {
         commit("setLoading", false);
         commit("setSuccessMsg", "Successfully Deleted!");
+        return "success";
       })
       .catch(() => {
         commit("setLoading", false);
         commit("setErrorMsg", "Car is not deleted!");
+        return "error";
       });
   },
-  // async submittedFormData(_, data) {
-  // },
 };
 
 export default {

@@ -83,7 +83,6 @@
         type="submit"
         variant="primary"
         :class="{ shake: disabledSubmitBtn }"
-        @click="animateBtn"
       >
         Submit
       </b-button>
@@ -114,11 +113,17 @@ export default {
   },
   methods: {
     async onSubmit() {
+      // this.$refs.observer.validate().then((success) => {
+      //   console.log("outer");
+      //   if (!success) {
+      //     console.log("error");
+      //     return;
+      //   }
+      // });
       if (this.car.carId !== "") {
         // if for Edit Card
         await this.$store.dispatch("cars/updateCarData", this.car);
-        await this.$store.dispatch("cars/getCarData");
-
+        await this.$store.dispatch("cars/getCarsData");
         let selectedCarData = {
           carId: "",
           carName: "",
@@ -129,7 +134,7 @@ export default {
         this.$store.commit("cars/setSelectedCarData", selectedCarData);
       } else {
         // else for Add New Card
-        await this.$store.dispatch("cars/addCarData", this.car);
+        await this.$store.dispatch("cars/addNewCar", this.car);
         await this.$store.dispatch("cars/getCarData");
       }
       this.$bvModal.hide(this.formModalId);

@@ -20,7 +20,7 @@
         <b-col
           cols="3"
           class="d-flex align-items-stretch ms-2 me-2"
-          v-for="data in this.carData"
+          v-for="data in this.carsData"
           :key="data.id"
           v-else
         >
@@ -56,20 +56,20 @@ export default {
     return {};
   },
   computed: {
-    carData() {
-      return this.$store.state.cars.carData;
+    carsData() {
+      return this.$store.getters["cars/getCarsData"];
     },
     selectedCarData() {
-      return this.$store.state.cars.selectedCarData;
+      return this.$store.getters["cars/getSelectedCarData"];
     },
     isLoading() {
-      return this.$store.state.cars.isLoading;
+      return this.$store.getters["cars/getIsLoading"];
     },
     successMsg() {
-      return this.$store.state.cars.successMsg;
+      return this.$store.getters["cars/getSuccessMsg"];
     },
     errorMsg() {
-      return this.$store.state.cars.errorMsg;
+      return this.$store.getters["cars/getErrorMsg"];
     },
   },
   methods: {
@@ -96,11 +96,11 @@ export default {
     async deleteCard(data) {
       await this.$store.dispatch("cars/deleteCar", data);
       alert("Deleted : " + data.title);
-      await this.$store.dispatch("cars/getCarData");
+      await this.$store.dispatch("cars/getCarsData");
     },
   },
   mounted() {
-    this.$store.dispatch("cars/getCarData");
+    this.$store.dispatch("cars/getCarsData");
   },
 };
 </script>

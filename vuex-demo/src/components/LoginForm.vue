@@ -79,15 +79,15 @@ export default {
   },
   computed: {
     isLoading() {
-      return this.$store.state.auth.isLoading;
+      return this.$store.getters["auth/getIsLoading"];
     },
     errorMsg() {
-      return this.$store.state.auth.errorMsg;
+      return this.$store.getters["auth/getErrorMsg"];
     },
   },
   methods: {
-    onSubmit() {
-      this.$store.dispatch("auth/loginUser", this.user);
+    async onSubmit() {
+      await this.$store.dispatch("auth/loginUser", this.user);
       this.user = {
         userEmail: "",
         userPassword: "",
