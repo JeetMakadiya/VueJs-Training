@@ -135,7 +135,7 @@ export default {
       } else {
         // else for Add New Card
         await this.$store.dispatch("cars/addNewCar", this.car);
-        await this.$store.dispatch("cars/getCarData");
+        await this.$store.dispatch("cars/getCarsData");
       }
       this.$bvModal.hide(this.formModalId);
     },
