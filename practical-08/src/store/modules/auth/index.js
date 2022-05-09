@@ -33,7 +33,13 @@ const actions = {
   async loginUser({ commit }, data) {
     commit("setLoading", true);
     commit("setErrorMsg", "");
-    await Axios.get("https://testapi.io/api/dartya/resource/users/1")
+    await Axios.post(
+      "http://www.mockbin.org/bin/a66e27a8-e608-4561-afb4-099c176b02c5?foo=bar&foo=baz",
+      {
+        email: data.userEmail,
+        password: data.userPassword,
+      }
+    )
       .then((res) => {
         commit("setLoading", false);
         if (res && res.data) {
