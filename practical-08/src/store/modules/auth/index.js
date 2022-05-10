@@ -34,13 +34,15 @@ const actions = {
     commit("setLoading", true);
     commit("setErrorMsg", "");
     await Axios.post(
-      "http://www.mockbin.org/bin/a66e27a8-e608-4561-afb4-099c176b02c5?foo=bar&foo=baz",
+      "http://www.mockbin.org/bin/c80b8c90-22de-4562-a5e5-2f44f0f14b38?foo=bar&foo=baz",
       {
         email: data.userEmail,
         password: data.userPassword,
       }
     )
       .then((res) => {
+        console.log(res);
+        console.log(this.$cookies.get("authToken"));
         commit("setLoading", false);
         if (res && res.data) {
           if (
@@ -59,6 +61,25 @@ const actions = {
         commit("setLoading", false);
         commit("setErrorMsg", "Oops,Something went wrong!");
       });
+    // fetch(
+    //   "http://www.mockbin.org/bin/0cf744ce-b8ce-46d3-ba15-b70ac6160f46?foo=bar&foo=baz",
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       cookie: "foo=bar; bar=baz",
+    //     },
+    //     body: {
+    //       foo: "bar",
+    //       bar: "baz",
+    //     },
+    //   }
+    // )
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   },
   async registerUser({ commit }, payload) {
     commit("setLoading", true);
