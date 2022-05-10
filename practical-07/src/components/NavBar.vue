@@ -37,7 +37,6 @@
 <script>
 export default {
   name: "NavBar",
-  components: {},
   data() {
     return {
       navBarText: "Car Showroom",

@@ -14,9 +14,5 @@
 export default {
   name: "AlertBox",
   props: ["alertVariant", "showAlert", "alertMessage"],
-  data() {
-    return {};
-  },
-  methods: {},
 };
 </script>
