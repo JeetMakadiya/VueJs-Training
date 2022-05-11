@@ -15,6 +15,7 @@ import * as rules from "vee-validate/dist/rules";
 import router from "./router";
 import "vue2-animate/dist/vue2-animate.min.css";
 import store from "./store";
+import VueCookies from "vue-cookies";
 
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
@@ -25,7 +26,7 @@ localize("en", en);
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
-
+Vue.use(VueCookies, { expire: "7d" });
 // Creating global component: NavBar
 Vue.component("NavBar", NavBar);
 Vue.component("ValidationProvider", ValidationProvider);
