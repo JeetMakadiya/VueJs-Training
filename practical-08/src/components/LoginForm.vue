@@ -30,10 +30,10 @@
                 </b-form-invalid-feedback>
               </b-form-group>
             </ValidationProvider>
+            <!-- regex: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/, -->
             <ValidationProvider
               :rules="{
                 required: true,
-                regex: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/,
               }"
               name="userPassword"
               v-slot="{ errors, valid }"

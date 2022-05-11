@@ -8,28 +8,38 @@
       <router-link
         :to="{ name: 'home' }"
         class="btn me-3 text-light fw-bold fs-5 nav_btn"
+        v-if="this.isAuthenticated"
       >
         Home
       </router-link>
       <router-link
         :to="{ name: 'login' }"
         class="btn me-3 text-light fw-bold fs-5 nav_btn"
+        v-if="!this.isAuthenticated"
       >
         Login
       </router-link>
       <router-link
         :to="{ name: 'register' }"
         class="btn me-3 text-light fw-bold fs-5 nav_btn"
+        v-if="!this.isAuthenticated"
       >
         Register
       </router-link>
       <b-button
-        pill
-        variant="outline-light"
-        class="addCarBtn"
+        variant="transparent"
+        class="me-3 text-light fw-bold fs-5 nav_btn"
+        v-if="this.isAuthenticated"
         v-b-modal.modal-prevent-closing
       >
         Add Car
+      </b-button>
+      <b-button
+        variant="transparent"
+        class="text-light fw-bold fs-5 nav_btn"
+        v-if="this.isAuthenticated"
+      >
+        Logout
       </b-button>
     </div>
   </nav>
@@ -42,6 +52,11 @@ export default {
     return {
       navBarText: "Car Showroom",
     };
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters["auth/getIsAuthenticated"];
+    },
   },
 };
 </script>

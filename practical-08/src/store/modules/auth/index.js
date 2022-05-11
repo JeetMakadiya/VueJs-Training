@@ -3,6 +3,7 @@ import router from "../../../router";
 // local state
 const state = {
   users: [],
+  isAuthenticated: false,
   isLoading: false,
   errorMsg: "",
 };
@@ -18,6 +19,9 @@ const getters = {
   getErrorMsg(state) {
     return state.errorMsg;
   },
+  getIsAuthenticated(state) {
+    return state.isAuthenticated;
+  },
 };
 
 const mutations = {
@@ -27,59 +31,33 @@ const mutations = {
   setErrorMsg(state, msg) {
     state.errorMsg = msg;
   },
+  setIsAuthenticated(state, status) {
+    state.isAuthenticated = status;
+  },
 };
 
 const actions = {
   async loginUser({ commit }, data) {
     commit("setLoading", true);
     commit("setErrorMsg", "");
-    await Axios.post(
-      "http://www.mockbin.org/bin/c80b8c90-22de-4562-a5e5-2f44f0f14b38?foo=bar&foo=baz",
-      {
-        email: data.userEmail,
-        password: data.userPassword,
-      }
-    )
+    // http://www.mockbin.org/bin/c80b8c90-22de-4562-a5e5-2f44f0f14b38?foo=bar&foo=baz
+    await Axios.post("https://reqres.in/api/login", {
+      email: data.userEmail,
+      password: data.userPassword,
+    })
       .then((res) => {
-        console.log(res);
-        console.log(this.$cookies.get("authToken"));
         commit("setLoading", false);
-        if (res && res.data) {
-          if (
-            data.userEmail === res.data.email &&
-            data.userPassword === res.data.password
-          ) {
-            router.push({ name: "home" });
-          } else {
-            commit("setErrorMsg", "Invalid Credentials!");
-          }
-        } else {
-          commit("setErrorMsg", "Oops,Something went wrong!");
+        if (res.data.token) {
+          document.cookie = `authToken=${res.data.token}`;
+          commit("setIsAuthenticated", true);
+          router.push({ name: "home" });
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         commit("setLoading", false);
         commit("setErrorMsg", "Oops,Something went wrong!");
       });
-    // fetch(
-    //   "http://www.mockbin.org/bin/0cf744ce-b8ce-46d3-ba15-b70ac6160f46?foo=bar&foo=baz",
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       cookie: "foo=bar; bar=baz",
-    //     },
-    //     body: {
-    //       foo: "bar",
-    //       bar: "baz",
-    //     },
-    //   }
-    // )
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   },
   async registerUser({ commit }, payload) {
     commit("setLoading", true);

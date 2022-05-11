@@ -4,6 +4,7 @@ import HomePage from "../Pages/HomePage.vue";
 import LoginPage from "../Pages/LoginPage.vue";
 import RegisterPage from "../Pages/RegisterPage.vue";
 import CarDetailsPage from "../Pages/CarDetailsPage.vue";
+import store from "../store";
 Vue.use(VueRouter);
 
 const routes = [
@@ -20,4 +21,10 @@ const router = new VueRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  console.log(store.state.auth.isAuthenticated);
+  let isAuthenticated = store.state.auth.isAuthenticated;
+  if (to.name !== "login" && !isAuthenticated) next({ name: "login" });
+  else next();
+});
 export default router;
