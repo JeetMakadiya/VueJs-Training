@@ -38,6 +38,7 @@
         variant="transparent"
         class="text-light fw-bold fs-5 nav_btn"
         v-if="this.isAuthenticated"
+        @click="handleLogout"
       >
         Logout
       </b-button>
@@ -57,6 +58,14 @@ export default {
     isAuthenticated() {
       return this.$store.getters["auth/getIsAuthenticated"];
     },
+  },
+  methods: {
+    handleLogout() {
+      this.$store.dispatch("auth/logoutUser");
+    },
+  },
+  mounted() {
+    this.$store.dispatch("auth/checkAuthenticated");
   },
 };
 </script>

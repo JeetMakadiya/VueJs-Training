@@ -40,21 +40,19 @@ const actions = {
   async loginUser({ commit }, data) {
     commit("setLoading", true);
     commit("setErrorMsg", "");
-    // http://www.mockbin.org/bin/c80b8c90-22de-4562-a5e5-2f44f0f14b38?foo=bar&foo=baz
-    await Axios.post("https://reqres.in/api/login", {
+    // https://reqres.in/api/login
+    await Axios.post("http://localhost:8081/api", {
       email: data.userEmail,
       password: data.userPassword,
     })
       .then((res) => {
         commit("setLoading", false);
-        if (res.data.token) {
-          document.cookie = `authToken=${res.data.token}`;
+        if (res.status === 200) {
           commit("setIsAuthenticated", true);
           router.push({ name: "home" });
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         commit("setLoading", false);
         commit("setErrorMsg", "Oops,Something went wrong!");
       });
@@ -83,6 +81,19 @@ const actions = {
         commit("setLoading", false);
         commit("setErrorMsg", "Oops! Something went wrong!");
       });
+  },
+  checkAuthenticated({ commit }) {
+    let position = document.cookie.search("authToken");
+    if (position !== -1) {
+      commit("setIsAuthenticated", true);
+    } else {
+      commit("setIsAuthenticated", false);
+    }
+  },
+  logoutUser({ commit }) {
+    document.cookie = "authToken=''";
+    commit("setIsAuthenticated", false);
+    router.push({ name: "login" });
   },
 };
 
