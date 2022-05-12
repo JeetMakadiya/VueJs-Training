@@ -8,7 +8,9 @@
 </template>
 <script>
 export default {
-  components: {},
+  mounted() {
+    this.$store.dispatch("auth/checkAuthenticated");
+  },
 };
 </script>
 <style>

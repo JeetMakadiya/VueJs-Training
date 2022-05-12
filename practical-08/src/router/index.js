@@ -22,9 +22,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   let isAuthenticated = false;
-  console.log(window.$cookies.get("authToken"));
-  let position = document.cookie.search("authToken");
-  if (position !== -1) {
+  if (window.$cookies.get("authToken")) {
     isAuthenticated = true;
   }
   if (to.name === "register" && !isAuthenticated) {

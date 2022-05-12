@@ -1,8 +1,14 @@
 import Axios from "axios";
 import router from "../../../router";
+import jwt_decode from "jwt-decode";
+
 // local state
 const state = {
   users: [],
+  userData: {
+    email: "",
+    password: "",
+  },
   isAuthenticated: false,
   isLoading: false,
   errorMsg: "",
@@ -12,6 +18,9 @@ const getters = {
   // state is module's local state
   getUsers(state) {
     return state.users;
+  },
+  getUserData(state) {
+    return state.userData;
   },
   getIsLoading(state) {
     return state.isLoading;
@@ -25,6 +34,9 @@ const getters = {
 };
 
 const mutations = {
+  setUserData(state, data) {
+    state.userData = data;
+  },
   setLoading(state, status) {
     state.isLoading = status;
   },
@@ -41,7 +53,7 @@ const actions = {
     commit("setLoading", true);
     commit("setErrorMsg", "");
     // https://reqres.in/api/login
-    await Axios.post("http://localhost:8081/api", {
+    await Axios.post("http://localhost:8080/api", {
       email: data.userEmail,
       password: data.userPassword,
     })
@@ -49,7 +61,9 @@ const actions = {
         commit("setLoading", false);
         if (res.status === 200) {
           commit("setIsAuthenticated", true);
-          router.push({ name: "home" });
+          router.replace({ name: "home" });
+          let userData = jwt_decode(window.$cookies.get("authToken"));
+          commit("setUserData", userData);
         }
       })
       .catch(() => {
@@ -83,17 +97,16 @@ const actions = {
       });
   },
   checkAuthenticated({ commit }) {
-    let position = document.cookie.search("authToken");
-    if (position !== -1) {
+    if (window.$cookies.get("authToken")) {
       commit("setIsAuthenticated", true);
     } else {
       commit("setIsAuthenticated", false);
     }
   },
   logoutUser({ commit }) {
-    document.cookie = "authToken=''";
+    window.$cookies.remove("authToken");
     commit("setIsAuthenticated", false);
-    router.push({ name: "login" });
+    router.replace({ name: "login" });
   },
 };
 
