@@ -34,14 +34,17 @@
       >
         Add Car
       </b-button>
-      <b-button
-        variant="transparent"
+      <b-dropdown
+        id="dropdown-right"
+        right
+        :text="this.userData.email"
+        variant="primary"
+        size="lg"
         class="text-light fw-bold fs-5 nav_btn"
         v-if="this.isAuthenticated"
-        @click="handleLogout"
       >
-        Logout
-      </b-button>
+        <b-dropdown-item @click.prevent="handleLogout">Logout</b-dropdown-item>
+      </b-dropdown>
     </div>
   </nav>
 </template>
@@ -55,6 +58,9 @@ export default {
     };
   },
   computed: {
+    userData() {
+      return this.$store.getters["auth/getUserData"];
+    },
     isAuthenticated() {
       return this.$store.getters["auth/getIsAuthenticated"];
     },
@@ -63,9 +69,6 @@ export default {
     handleLogout() {
       this.$store.dispatch("auth/logoutUser");
     },
-  },
-  mounted() {
-    this.$store.dispatch("auth/checkAuthenticated");
   },
 };
 </script>
