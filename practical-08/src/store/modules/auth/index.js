@@ -52,7 +52,6 @@ const actions = {
   async loginUser({ commit }, data) {
     commit("setLoading", true);
     commit("setErrorMsg", "");
-    // https://reqres.in/api/login
     await Axios.post("http://localhost:8080/api", {
       email: data.userEmail,
       password: data.userPassword,
@@ -95,13 +94,6 @@ const actions = {
         commit("setLoading", false);
         commit("setErrorMsg", "Oops! Something went wrong!");
       });
-  },
-  checkAuthenticated({ commit }) {
-    if (window.$cookies.get("authToken")) {
-      commit("setIsAuthenticated", true);
-    } else {
-      commit("setIsAuthenticated", false);
-    }
   },
   logoutUser({ commit }) {
     window.$cookies.remove("authToken");
