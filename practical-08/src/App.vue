@@ -9,7 +9,11 @@
 <script>
 export default {
   mounted() {
-    this.$store.dispatch("auth/checkAuthenticated");
+    if (this.$cookies.get("authToken")) {
+      this.$store.commit("auth/setIsAuthenticated", true);
+    } else {
+      this.$store.commit("auth/setIsAuthenticated", false);
+    }
   },
 };
 </script>
