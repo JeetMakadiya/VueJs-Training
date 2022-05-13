@@ -11,4 +11,3 @@ export default {
   components: { RegisterForm },
 };
 </script>
-<style></style>
