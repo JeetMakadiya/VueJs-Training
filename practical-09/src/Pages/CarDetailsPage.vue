@@ -62,8 +62,8 @@
   </section>
 </template>
 <script>
-import AlertBox from "../components/AlertBox.vue";
 import FormModal from "../components/FormModal.vue";
+const AlertBox = () => import("../components/AlertBox.vue");
 export default {
   name: "CarDetailsPage",
   components: { AlertBox, FormModal },

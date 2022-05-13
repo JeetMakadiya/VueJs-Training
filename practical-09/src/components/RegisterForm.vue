@@ -168,7 +168,7 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
-import AlertBox from "./AlertBox.vue";
+const AlertBox = () => import("./AlertBox.vue");
 export default {
   name: "RegisterForm",
   components: {

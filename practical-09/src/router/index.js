@@ -1,11 +1,12 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomePage from "../Pages/HomePage.vue";
-import LoginPage from "../Pages/LoginPage.vue";
-import RegisterPage from "../Pages/RegisterPage.vue";
-import CarDetailsPage from "../Pages/CarDetailsPage.vue";
 import jwt_decode from "jwt-decode";
 import store from "../store";
+const HomePage = () => import("../Pages/HomePage.vue");
+const LoginPage = () => import("../Pages/LoginPage.vue");
+const RegisterPage = () => import("../Pages/RegisterPage.vue");
+const CarDetailsPage = () => import("../Pages/CarDetailsPage.vue");
+
 Vue.use(VueRouter);
 
 const routes = [

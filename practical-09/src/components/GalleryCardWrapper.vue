@@ -42,8 +42,8 @@
 </template>
 <script>
 import GalleryCard from "./GalleryCard.vue";
-import AlertBox from "./AlertBox.vue";
-import FormModal from "./FormModal.vue";
+const AlertBox = () => import("./AlertBox.vue");
+const FormModal = () => import("./FormModal.vue");
 
 export default {
   name: "GalleryCardWrapper",
