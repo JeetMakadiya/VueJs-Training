@@ -67,9 +67,6 @@ import FormModal from "../components/FormModal.vue";
 export default {
   name: "CarDetailsPage",
   components: { AlertBox, FormModal },
-  data() {
-    return {};
-  },
   computed: {
     carData() {
       return this.$store.getters["cars/getCarData"];
