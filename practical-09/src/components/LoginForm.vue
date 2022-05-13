@@ -61,6 +61,7 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
+import { mapGetters } from "vuex";
 const AlertBox = () => import("./AlertBox.vue");
 export default {
   name: "LoginForm",
@@ -78,12 +79,10 @@ export default {
     };
   },
   computed: {
-    isLoading() {
-      return this.$store.getters["auth/getIsLoading"];
-    },
-    errorMsg() {
-      return this.$store.getters["auth/getErrorMsg"];
-    },
+    ...mapGetters({
+      isLoading: "auth/getIsLoading",
+      errorMsg: "auth/getErrorMsg",
+    }),
   },
   methods: {
     async onSubmit() {

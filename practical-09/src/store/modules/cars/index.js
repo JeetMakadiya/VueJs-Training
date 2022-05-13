@@ -1,6 +1,5 @@
 import Axios from "axios";
 
-// local state
 const state = {
   carsData: [],
   carData: {},

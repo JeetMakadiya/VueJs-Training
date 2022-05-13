@@ -62,27 +62,19 @@
   </section>
 </template>
 <script>
+import { mapGetters } from "vuex";
 import FormModal from "../components/FormModal.vue";
 const AlertBox = () => import("../components/AlertBox.vue");
 export default {
   name: "CarDetailsPage",
   components: { AlertBox, FormModal },
-  data() {
-    return {};
-  },
   computed: {
-    carData() {
-      return this.$store.getters["cars/getCarData"];
-    },
-    selectedCarData() {
-      return this.$store.getters["cars/getSelectedCarData"];
-    },
-    isLoading() {
-      return this.$store.getters["cars/getIsLoading"];
-    },
-    errorMsg() {
-      return this.$store.getters["cars/getErrorMsg"];
-    },
+    ...mapGetters({
+      carData: "cars/getCarData",
+      selectedCarData: "cars/getSelectedCarData",
+      isLoading: "cars/getIsLoading",
+      errorMsg: "cars/getErrorMsg",
+    }),
   },
   methods: {
     async editCar() {

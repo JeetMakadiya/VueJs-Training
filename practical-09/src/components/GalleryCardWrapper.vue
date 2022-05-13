@@ -52,9 +52,6 @@ export default {
     FormModal,
     AlertBox,
   },
-  data() {
-    return {};
-  },
   computed: {
     carsData() {
       return this.$store.getters["cars/getCarsData"];

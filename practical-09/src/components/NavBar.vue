@@ -4,32 +4,30 @@
     style="height: 14vh"
   >
     <h1 class="text-center text-light">{{ navBarText }}</h1>
-    <div>
-      <router-link
-        :to="{ name: 'home' }"
-        class="btn me-3 text-light fw-bold fs-5 nav_btn"
-        v-if="this.isAuthenticated"
-      >
-        Home
-      </router-link>
+    <div v-if="!this.isAuthenticated">
       <router-link
         :to="{ name: 'login' }"
         class="btn me-3 text-light fw-bold fs-5 nav_btn"
-        v-if="!this.isAuthenticated"
       >
         Login
       </router-link>
       <router-link
         :to="{ name: 'register' }"
         class="btn me-3 text-light fw-bold fs-5 nav_btn"
-        v-if="!this.isAuthenticated"
       >
         Register
+      </router-link>
+    </div>
+    <div v-if="this.isAuthenticated">
+      <router-link
+        :to="{ name: 'home' }"
+        class="btn me-3 text-light fw-bold fs-5 nav_btn"
+      >
+        Home
       </router-link>
       <b-button
         variant="transparent"
         class="me-3 text-light fw-bold fs-5 nav_btn"
-        v-if="this.isAuthenticated"
         v-b-modal.modal-prevent-closing
       >
         Add Car
@@ -41,7 +39,6 @@
         variant="primary"
         size="lg"
         class="text-light fw-bold fs-5 nav_btn"
-        v-if="this.isAuthenticated"
       >
         <b-dropdown-item @click.prevent="handleLogout">Logout</b-dropdown-item>
       </b-dropdown>
@@ -49,6 +46,7 @@
   </nav>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "NavBar",
   components: {},
@@ -58,12 +56,10 @@ export default {
     };
   },
   computed: {
-    userData() {
-      return this.$store.getters["auth/getUserData"];
-    },
-    isAuthenticated() {
-      return this.$store.getters["auth/getIsAuthenticated"];
-    },
+    ...mapGetters({
+      userData: "auth/getUserData",
+      isAuthenticated: "auth/getIsAuthenticated",
+    }),
   },
   methods: {
     handleLogout() {

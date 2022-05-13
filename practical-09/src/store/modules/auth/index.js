@@ -2,7 +2,6 @@ import Axios from "axios";
 import router from "../../../router";
 import jwt_decode from "jwt-decode";
 
-// local state
 const state = {
   users: [],
   userData: {
@@ -15,7 +14,6 @@ const state = {
 };
 
 const getters = {
-  // state is module's local state
   getUsers(state) {
     return state.users;
   },
