@@ -68,8 +68,6 @@
 <script>
 export default {
   name: "GalleryCard",
-  components: {},
   props: ["cardId", "cardTitle", "cardImage", "cardDescription", "price"],
 };
 </script>
-<style></style>

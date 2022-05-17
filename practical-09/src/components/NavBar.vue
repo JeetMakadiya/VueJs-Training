@@ -49,7 +49,6 @@
 import { mapGetters } from "vuex";
 export default {
   name: "NavBar",
-  components: {},
   data() {
     return {
       navBarText: "Car Showroom",
