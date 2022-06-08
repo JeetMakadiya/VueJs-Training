@@ -6,11 +6,10 @@
 import { defineComponent, onMounted, useStore } from "@nuxtjs/composition-api";
 export default defineComponent({
   name: "IndexPage",
-  // middleware: "auth",
+  middleware: ["auth", "notAuth"],
   setup(_, context) {
     const store = useStore();
     onMounted(() => {
-      console.log(context);
       if (context.root.$cookies.get("authToken")) {
         store.commit("auth/setIsAuthenticated", true);
       } else {

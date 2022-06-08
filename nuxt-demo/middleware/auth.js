@@ -1,12 +1,6 @@
-export default function ({ app, store, redirect, route, from }) {
-  // let isAuthenticated = false;
-  // if (app.$cookies.get("authToken")) {
-  // isAuthenticated = true;
-  // }
-  // if (!store.getters['auth/getIsAuthenticated']) {
-  //   redirect("/Login");
-  // }
-  // if (isAuthenticated) {
-  //   redirect("/Home");
-  // }
+export default function ({ store, redirect, route }) {
+  // If the user is not authenticated
+  if (!store.getters["auth/getIsAuthenticated"]) {
+    return redirect("/Login");
+  }
 }

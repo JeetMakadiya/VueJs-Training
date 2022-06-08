@@ -8,6 +8,6 @@ import GalleryCardWrapper from "../components/GalleryCardWrapper.vue";
 export default {
   components: { GalleryCardWrapper },
   name: "Home",
-  // middleware: "auth",
+  middleware: "auth",
 };
 </script>

@@ -73,6 +73,7 @@ import {
 
 export default defineComponent({
   name: "CarDetailsPage",
+  middleware: "auth",
   setup(_, context) {
     const store = useStore();
     const route = useRoute();
