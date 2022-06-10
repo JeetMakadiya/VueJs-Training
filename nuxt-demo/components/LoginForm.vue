@@ -78,7 +78,7 @@ export default defineComponent({
   setup(_, context) {
     const store = useStore();
     const router = useRouter();
-    const user = reactive({
+    let user = reactive({
       userEmail: "",
       userPassword: "",
     });
