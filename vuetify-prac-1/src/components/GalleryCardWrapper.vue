@@ -37,14 +37,13 @@
         </v-col>
       </v-row>
     </v-container>
-    <FormModal :formData="this.selectedCarData" />
+    <FormModal />
   </section>
 </template>
 <script>
 import GalleryCard from "./GalleryCard.vue";
 import AlertBox from "./AlertBox.vue";
 import FormModal from "./FormModal.vue";
-import Vue from "vue";
 export default {
   name: "GalleryCardWrapper",
   components: {
@@ -87,10 +86,7 @@ export default {
         carImgURL: data.image,
       };
       this.$store.commit("cars/setSelectedCarData", selectedCarData);
-      Vue.nextTick(() => {
-        this.$store.commit("ui/openDialog", { type: "edit" });
-        // console.log();
-      });
+      this.$store.commit("ui/openDialog", { type: "edit" });
     },
     // Func. to Delete Card
     async deleteCard(data) {

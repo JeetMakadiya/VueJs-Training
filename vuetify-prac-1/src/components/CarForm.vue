@@ -51,62 +51,11 @@
           required
         ></v-text-field>
       </validation-provider>
-      <v-btn color="primary" class="mr-4" type="submit" small> Add Car </v-btn>
-      <div>{{ car }}</div>
+      <v-btn color="primary" class="mr-4" type="submit" small>
+        {{ formType === "add" ? "Add Car" : "Edit Car" }}
+      </v-btn>
+      <div>{{ formData }}</div>
     </form>
-    <!-- Edit Car Data Form -->
-    <!-- <form @submit.prevent="handleSubmit(onSubmit)" v-if="formType === 'edit'">
-      <validation-provider
-        v-slot="{ errors }"
-        name="carName"
-        rules="required|alpha_spaces"
-      >
-        <v-text-field
-          v-model="carName"
-          :error-messages="errors"
-          label="Car Name"
-          required
-        >
-        </v-text-field>
-      </validation-provider>
-      <validation-provider
-        v-slot="{ errors }"
-        name="carDetails"
-        rules="required|min:30|max:120"
-      >
-        <v-text-field
-          v-model="carDetails"
-          :error-messages="errors"
-          label="Car Details"
-          required
-        ></v-text-field>
-      </validation-provider>
-      <validation-provider v-slot="{ errors }" name="carPrice" rules="integer">
-        <v-text-field
-          v-model="carPrice"
-          :error-messages="errors"
-          label="Car Price"
-          required
-        ></v-text-field>
-      </validation-provider>
-      <validation-provider
-        v-slot="{ errors }"
-        name="carImgURL"
-        :rules="{
-          required: true,
-          regex:
-            /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
-        }"
-      >
-        <v-text-field
-          v-model="carImgURL"
-          :error-messages="errors"
-          label="Car Image URL"
-          required
-        ></v-text-field>
-      </validation-provider>
-      <v-btn color="primary" class="mr-4" type="submit" small> Edit Car </v-btn>
-    </form> -->
   </validation-observer>
 </template>
 <script>
@@ -117,15 +66,16 @@ export default {
     ValidationObserver,
     ValidationProvider,
   },
-  props: ["formData"],
   data() {
     return {
       car: {
-        carId: this.$store.state.cars.selectedCarData.carId || "",
-        carName: this.$store.state.cars.selectedCarData.carName || "",
-        carDetails: this.$store.state.cars.selectedCarData.carDetails || "",
-        carPrice: this.$store.state.cars.selectedCarData.carPrice || "",
-        carImgURL: this.$store.state.cars.selectedCarData.carImgURL || "",
+        carId: this.$store.getters["cars/getSelectedCarData"].carId || "",
+        carName: this.$store.getters["cars/getSelectedCarData"].carName || "",
+        carDetails:
+          this.$store.getters["cars/getSelectedCarData"].carDetails || "",
+        carPrice: this.$store.getters["cars/getSelectedCarData"].carPrice || "",
+        carImgURL:
+          this.$store.getters["cars/getSelectedCarData"].carImgURL || "",
       },
       disabledSubmitBtn: false,
     };
@@ -134,61 +84,23 @@ export default {
     formType() {
       return this.$store.getters["ui/getDialogType"];
     },
-    // selectedCarData() {
-    //   return this.$store.getters["cars/getSelectedCarData"];
-    // },
-    carId: {
-      get() {
-        return this.$store.state.cars.selectedCarData.carId;
-      },
-      set(newValue) {
-        this.car.carId = newValue;
-      },
+    selectedCarData() {
+      return this.$store.getters["cars/getSelectedCarData"];
     },
-    carName: {
-      get() {
-        return this.$store.state.cars.selectedCarData.carName;
-      },
-      set(newValue) {
-        this.car.carName = newValue;
-      },
-    },
-    carDetails: {
-      get() {
-        return this.$store.state.cars.selectedCarData.carDetails;
-      },
-      set(newValue) {
-        this.car.carDetails = newValue;
-      },
-    },
-    carPrice: {
-      get() {
-        return this.$store.state.cars.selectedCarData.carPrice;
-      },
-      set(newValue) {
-        this.car.carPrice = newValue;
-      },
-    },
-    carImgURL: {
-      get() {
-        return this.$store.state.cars.selectedCarData.carImgURL;
-      },
-      set(newValue) {
-        this.car.carImgURL = newValue;
-      },
+  },
+  watch: {
+    selectedCarData(newFormData) {
+      this.car.carId = newFormData.carId;
+      this.car.carName = newFormData.carName;
+      this.car.carDetails = newFormData.carDetails;
+      this.car.carPrice = newFormData.carPrice;
+      this.car.carImgURL = newFormData.carImgURL;
     },
   },
   methods: {
-    // updateCarData() {
-    //   this.car.carId = this.selectedCarData.carId;
-    //   this.car.carName = this.selectedCarData.carName;
-    //   this.car.carDetails = this.selectedCarData.carDetails;
-    //   this.car.carPrice = this.selectedCarData.carPrice;
-    //   this.car.carImgURL = this.selectedCarData.carImgURL;
-    // },
     async onSubmit() {
       if (this.car.carId !== "") {
-        let updatedCarData = {
+        let selectedCarData = {
           carId: this.carId,
           carName: this.carName,
           carDetails: this.carDetails,
@@ -196,16 +108,16 @@ export default {
           carImgURL: this.carImgURL,
         };
         // if for Edit Card
-        await this.$store.dispatch("cars/updateCarData", updatedCarData);
+        await this.$store.dispatch("cars/updateCarData", this.car);
         await this.$store.dispatch("cars/getCarsData");
-        updatedCarData = {
+        selectedCarData = {
           carId: "",
           carName: "",
           carDetails: "",
           carPrice: "",
           carImgURL: "",
         };
-        this.$store.commit("cars/setSelectedCarData", updatedCarData);
+        this.$store.commit("cars/setSelectedCarData", selectedCarData);
       } else {
         // else for Add New Card
         await this.$store.dispatch("cars/addNewCar", this.car);

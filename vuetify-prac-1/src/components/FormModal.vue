@@ -1,23 +1,21 @@
 <template>
-  <div v-if="true">
-    <v-dialog
-      transition="dialog-top-transition"
-      v-model="openDialog"
-      max-width="450"
-    >
-      <v-card>
-        <v-toolbar color="primary" dark>
-          {{ dialogType === "add" ? "Add Car Data" : "Edit Car Data" }}
-        </v-toolbar>
-        <v-card-text>
-          <CarForm :formData="this.formData" v-on="$listeners" />
-        </v-card-text>
-        <v-card-actions class="justify-end">
-          <v-btn text @click="closeDialog" small>Close</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </div>
+  <v-dialog
+    transition="dialog-top-transition"
+    v-model="openDialog"
+    max-width="450"
+  >
+    <v-card>
+      <v-toolbar color="primary" dark>
+        {{ dialogType === "add" ? "Add Car Data" : "Edit Car Data" }}
+      </v-toolbar>
+      <v-card-text>
+        <CarForm v-on="$listeners" />
+      </v-card-text>
+      <v-card-actions class="justify-end">
+        <v-btn text @click="closeDialog" small>Close</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -28,7 +26,6 @@ export default {
       name: "FormModal",
     };
   },
-  props: ["formData"],
   components: { CarForm },
   computed: {
     openDialog() {
