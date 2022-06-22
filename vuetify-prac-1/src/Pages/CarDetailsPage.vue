@@ -10,55 +10,35 @@
     </div>
     <div class="d-flex justify-content-center mt-5">
       <div v-if="this.isLoading === true">Loading...</div>
-      <b-card
-        v-if="this.errorMsg === ''"
-        no-body
-        class="overflow-hidden"
-        style="max-width: 1040px"
-      >
-        <b-row no-gutters>
-          <b-col md="6">
-            <b-card-img
-              :src="this.carData.image"
-              alt="Image"
-              class="rounded-0"
-            ></b-card-img>
-          </b-col>
-          <b-col md="6">
-            <b-card-body :title="this.carData.name">
-              <b-card-text>
-                {{ this.carData.details }}
-              </b-card-text>
-              <b-card-text>
-                {{ this.carData.price }}
-              </b-card-text>
-            </b-card-body>
-          </b-col>
-        </b-row>
-      </b-card>
+      <v-card class="mx-auto" min-width="550" outlined>
+        <v-list-item three-line>
+          <v-list-item-content>
+            <v-list-item-title class="text-h5 mb-1">
+              {{ this.carData.name }}
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              {{ this.carData.details }}
+            </v-list-item-subtitle>
+            <div class="text-overline mb-4">
+              Price : {{ this.carData.price }}
+            </div>
+          </v-list-item-content>
+          <v-list-item-avatar tile size="220" color="grey">
+            <v-img :src="this.carData.image"></v-img>
+          </v-list-item-avatar>
+        </v-list-item>
+        <v-card-actions>
+          <v-btn small color="primary" @click.prevent="editCar"> Edit </v-btn>
+          <v-btn small color="primary" @click.prevent="deleteCar()">
+            Delete
+          </v-btn>
+          <v-btn small color="primary" :to="{ name: 'home' }">
+            Back To Home Page
+          </v-btn>
+        </v-card-actions>
+      </v-card>
     </div>
-    <div class="d-flex justify-content-center mt-5">
-      <b-button
-        href="#"
-        variant="primary"
-        class="me-3"
-        @click.prevent="editCar"
-      >
-        Edit
-      </b-button>
-      <b-button
-        href="#"
-        variant="primary"
-        class="me-3"
-        @click.prevent="deleteCar()"
-      >
-        Delete
-      </b-button>
-      <router-link :to="{ name: 'home' }" class="btn btn-primary">
-        Back To Home Page
-      </router-link>
-    </div>
-    <FormModal :formData="this.selectedCarData" />
+    <FormModal />
   </section>
 </template>
 <script>
@@ -91,10 +71,9 @@ export default {
         carImgURL: this.carData.image,
       };
       await this.$store.commit("cars/setSelectedCarData", selectedData);
-      this.$bvModal.show("modal-prevent-closing");
+      this.$store.commit("ui/openDialog", { type: "edit" });
     },
     async deleteCar() {
-      console.log(this.carData);
       let res = await this.$store.dispatch("cars/deleteCar", this.carData);
       if (res !== "error") {
         this.$router.push({ name: "home" });

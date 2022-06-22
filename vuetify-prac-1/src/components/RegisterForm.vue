@@ -1,170 +1,157 @@
 <template>
-  <b-container class="bv-example-row">
-    <b-row class="mt-5">
-      <b-col cols="4"></b-col>
-      <b-col cols="4">
+  <v-container class="lighten-5">
+    <v-row no-gutters>
+      <v-col cols="4" sm="4"></v-col>
+      <v-col cols="4" sm="4">
         <AlertBox
           v-if="this.isLoading === false && this.errorMsg !== ''"
           showAlert="true"
           alertVariant="danger"
           :alertMessage="this.errorMsg"
         />
-        <h1 class="text-center text-primary">Register</h1>
-        <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
-          <b-form @submit.prevent="handleSubmit(onSubmit)">
-            <!-- Name Field -->
-            <ValidationProvider
-              rules="required|alpha_spaces"
-              name="name"
-              v-slot="{ errors, valid }"
-            >
-              <b-form-group label="User Name" class="mb-2">
-                <b-form-input
-                  type="text"
+        <v-card class="pa-2 mt-5" elevation="4" outlined tile>
+          <h1 class="text-center text-primary">Register</h1>
+          <validation-observer ref="observer" v-slot="{ handleSubmit }">
+            <form @submit.prevent="handleSubmit(onSubmit)">
+              <!-- username field -->
+              <validation-provider
+                v-slot="{ errors }"
+                name="userEmail"
+                rules="required|alpha_spaces"
+              >
+                <v-text-field
                   v-model="user.name"
-                  :state="errors[0] ? false : valid ? true : null"
-                  placeholder="Enter user name"
-                >
-                </b-form-input>
-                <b-form-invalid-feedback>
-                  {{ errors[0] }}
-                </b-form-invalid-feedback>
-              </b-form-group>
-            </ValidationProvider>
-            <!-- Email Field -->
-            <ValidationProvider
-              rules="required|email"
-              name="email"
-              v-slot="{ errors, valid }"
-            >
-              <b-form-group label="E-mail" class="mb-2">
-                <b-form-input
-                  type="text"
+                  :error-messages="errors"
+                  label="Name"
+                  required
+                ></v-text-field>
+              </validation-provider>
+              <!-- email field -->
+              <validation-provider
+                v-slot="{ errors }"
+                name="userEmail"
+                rules="required|email"
+              >
+                <v-text-field
                   v-model="user.email"
-                  :state="errors[0] ? false : valid ? true : null"
-                  placeholder="Enter email"
-                >
-                </b-form-input>
-                <b-form-invalid-feedback>
-                  {{ errors[0] }}
-                </b-form-invalid-feedback>
-              </b-form-group>
-            </ValidationProvider>
-            <!-- Password Field -->
-            <ValidationProvider
-              :rules="{
-                required: true,
-                regex: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/,
-              }"
-              name="password"
-              v-slot="{ errors, valid }"
-            >
-              <b-form-group label="Password" class="mb-2">
-                <b-form-input
-                  type="text"
+                  :error-messages="errors"
+                  label="E-mail"
+                  required
+                ></v-text-field>
+              </validation-provider>
+              <!-- password field -->
+              <validation-provider
+                v-slot="{ errors }"
+                name="userPassword"
+                :rules="{
+                  required: true,
+                  regex:
+                    /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/,
+                }"
+              >
+                <v-text-field
                   v-model="user.password"
-                  :state="errors[0] ? false : valid ? true : null"
-                  placeholder="Enter password"
-                >
-                </b-form-input>
-                <b-form-invalid-feedback>
-                  {{ errors[0] }}
-                </b-form-invalid-feedback>
-              </b-form-group>
-            </ValidationProvider>
-            <!-- Confirm Password Field -->
-            <ValidationProvider
-              :rules="{
-                required: true,
-                regex: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/,
-              }"
-              name="confirmPassword"
-              v-slot="{ errors, valid }"
-            >
-              <b-form-group label="Confirm Password" class="mb-2">
-                <b-form-input
-                  type="text"
+                  :error-messages="errors"
+                  label="Password"
+                  required
+                ></v-text-field>
+              </validation-provider>
+              <!-- confirm password field -->
+              <validation-provider
+                v-slot="{ errors }"
+                name="userPassword"
+                :rules="{
+                  required: true,
+                  regex:
+                    /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,12}$/,
+                }"
+              >
+                <v-text-field
                   v-model="user.confirmPassword"
-                  :state="errors[0] ? false : valid ? true : null"
-                  placeholder="Confirm password"
-                >
-                </b-form-input>
-                <b-form-invalid-feedback>
-                  {{ errors[0] }}
-                </b-form-invalid-feedback>
-              </b-form-group>
-            </ValidationProvider>
-            <!-- Role Field -->
-            <ValidationProvider
-              rules="required"
-              name="role"
-              v-slot="{ errors }"
-            >
-              <b-form-group label="Role" class="mb-2">
-                <b-form-select
+                  :error-messages="errors"
+                  label="Confirm Password"
+                  required
+                ></v-text-field>
+              </validation-provider>
+              <!-- select role field -->
+              <validation-provider
+                v-slot="{ errors }"
+                name="role"
+                rules="required"
+              >
+                <v-select
                   v-model="user.selectedRole"
-                  :options="user.roleOptions"
-                ></b-form-select>
-                <b-form-invalid-feedback>
-                  {{ errors[0] }}
-                </b-form-invalid-feedback>
-              </b-form-group>
-            </ValidationProvider>
-            <!-- gender field -->
-            <ValidationProvider
-              rules="required"
-              name="gender"
-              v-slot="{ errors }"
-            >
-              <b-form-group label="Gender" class="mb-2">
-                <b-form-radio-group
+                  :items="user.roleOptions"
+                  :error-messages="errors"
+                  label="Role"
+                  data-vv-name="select"
+                  required
+                ></v-select>
+              </validation-provider>
+              <!-- select gender field -->
+              <validation-provider
+                v-slot="{ errors }"
+                name="gender"
+                rules="required"
+              >
+                <v-select
                   v-model="user.selectedGender"
-                  :options="user.genderOptions"
-                  :aria-describedby="ariaDescribedby"
-                  inline="true"
-                ></b-form-radio-group>
-                <b-form-invalid-feedback>
-                  {{ errors[0] }}
-                </b-form-invalid-feedback>
-              </b-form-group>
-            </ValidationProvider>
-            <!-- age field -->
-            <ValidationProvider
-              rules="required|numeric"
-              name="age"
-              v-slot="{ errors, valid }"
-            >
-              <b-form-group label="Age" class="mb-2">
-                <b-form-input
-                  type="text"
+                  :items="user.genderOptions"
+                  :error-messages="errors"
+                  label="Gender"
+                  data-vv-name="select"
+                  required
+                ></v-select>
+              </validation-provider>
+              <!-- age field -->
+              <validation-provider
+                v-slot="{ errors }"
+                name="age"
+                rules="required|numeric"
+              >
+                <v-text-field
                   v-model="user.age"
-                  :state="errors[0] ? false : valid ? true : null"
-                  placeholder="Enter age"
+                  :error-messages="errors"
+                  label="Age"
+                  required
+                ></v-text-field>
+              </validation-provider>
+              <!-- date field -->
+              <validation-provider name="dob" rules="required">
+                <v-menu
+                  v-model="dateMenu"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
                 >
-                </b-form-input>
-                <b-form-invalid-feedback>
-                  {{ errors[0] }}
-                </b-form-invalid-feedback>
-              </b-form-group>
-            </ValidationProvider>
-            <ValidationProvider rules="required" name="dob" v-slot="{ errors }">
-              <b-form-group label="Choose Date Of Birth" class="mb-2">
-                <b-form-datepicker
-                  v-model="user.dob"
-                  class="mb-2"
-                ></b-form-datepicker>
-                <b-form-invalid-feedback>
-                  {{ errors[0] }}
-                </b-form-invalid-feedback>
-              </b-form-group>
-            </ValidationProvider>
-            <b-button block type="submit" variant="primary">Register</b-button>
-          </b-form>
-        </ValidationObserver>
-      </b-col>
-      <b-col cols="4"></b-col>
-    </b-row>
-  </b-container>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="user.dob"
+                      label="Pick Date of Birth"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="user.dob"
+                    @input="dateMenu = false"
+                  ></v-date-picker>
+                </v-menu>
+              </validation-provider>
+              <v-btn class="mr-4" type="submit" color="primary">
+                Register
+              </v-btn>
+            </form>
+          </validation-observer>
+        </v-card>
+      </v-col>
+      <v-col cols="4" sm="4"></v-col>
+    </v-row>
+  </v-container>
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
@@ -199,6 +186,7 @@ export default {
           { value: "other", text: "Other" },
         ],
       },
+      dateMenu: false,
     };
   },
   computed: {

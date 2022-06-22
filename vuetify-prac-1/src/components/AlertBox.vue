@@ -1,14 +1,7 @@
 <template>
-  <b-alert
-    :variant="this.alertVariant"
-    dismissible
-    fade
-    :show="this.showAlert === 'true'"
-    @dismissed="showDismissibleAlert = false"
-    dismiss-label="close"
-  >
-    {{ this.alertMessage }}
-  </b-alert>
+  <v-alert dismissible dense :type="this.alertVariant">
+    Something Went Wrong!
+  </v-alert>
 </template>
 <script>
 export default {

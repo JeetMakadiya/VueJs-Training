@@ -5,7 +5,7 @@
         <AlertBox
           v-if="this.isLoading === false && this.errorMsg !== ''"
           showAlert="true"
-          alertVariant="danger"
+          alertVariant="error"
           :alertMessage="this.errorMsg"
         />
         <AlertBox
