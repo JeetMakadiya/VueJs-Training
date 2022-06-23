@@ -47,16 +47,6 @@ export default {
       };
       this.$store.commit("cars/setSelectedCarData", selectedCarData);
     },
-    onHide() {
-      let selectedCarData = {
-        carId: "",
-        carName: "",
-        carDetails: "",
-        carPrice: "",
-        carImgURL: "",
-      };
-      this.$store.commit("cars/setSelectedCarData", selectedCarData);
-    },
   },
 };
 </script>
