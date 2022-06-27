@@ -1,11 +1,11 @@
 <template>
   <v-alert dismissible dense :type="this.alertVariant">
-    Something Went Wrong!
+    {{ this.alertMessage }}
   </v-alert>
 </template>
 <script>
 export default {
   name: "AlertBox",
-  props: ["alertVariant", "showAlert", "alertMessage"],
+  props: ["alertVariant", "alertMessage"],
 };
 </script>

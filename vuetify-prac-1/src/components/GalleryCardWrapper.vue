@@ -4,13 +4,11 @@
       <div class="mt-5">
         <AlertBox
           v-if="this.isLoading === false && this.errorMsg !== ''"
-          showAlert="true"
           alertVariant="error"
           :alertMessage="this.errorMsg"
         />
         <AlertBox
           v-else-if="this.isLoading === false && this.successMsg !== ''"
-          showAlert="true"
           alertVariant="success"
           :alertMessage="this.successMsg"
         />
