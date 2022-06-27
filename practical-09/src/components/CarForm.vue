@@ -113,13 +113,6 @@ export default {
   },
   methods: {
     async onSubmit() {
-      // this.$refs.observer.validate().then((success) => {
-      //   console.log("outer");
-      //   if (!success) {
-      //     console.log("error");
-      //     return;
-      //   }
-      // });
       if (this.car.carId !== "") {
         // if for Edit Card
         await this.$store.dispatch("cars/updateCarData", this.car);
