@@ -4,6 +4,7 @@ import HomePage from "../Pages/HomePage.vue";
 import LoginPage from "../Pages/LoginPage.vue";
 import RegisterPage from "../Pages/RegisterPage.vue";
 import CarDetailsPage from "../Pages/CarDetailsPage.vue";
+import UserListPage from "../Pages/UserListPage.vue";
 import jwt_decode from "jwt-decode";
 import store from "../store";
 Vue.use(VueRouter);
@@ -14,6 +15,7 @@ const routes = [
   { path: "/login", name: "login", component: LoginPage },
   { path: "/register", name: "register", component: RegisterPage },
   { path: "/carDetails/:carId", name: "carDetails", component: CarDetailsPage },
+  { path: "/userList", name: "userList", component: UserListPage },
 ];
 
 const router = new VueRouter({

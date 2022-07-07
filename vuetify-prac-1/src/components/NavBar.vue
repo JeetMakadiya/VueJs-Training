@@ -30,6 +30,15 @@
         Home
       </v-btn>
       <v-btn
+        small
+        text
+        class="white--text nav_btn"
+        v-if="this.isAuthenticated"
+        :to="{ name: 'userList' }"
+      >
+        UserList
+      </v-btn>
+      <v-btn
         v-if="this.isAuthenticated"
         @click="openFormModal"
         small

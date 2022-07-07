@@ -34,6 +34,9 @@ const getters = {
 };
 
 const mutations = {
+  setUsers(state, data) {
+    state.users = data;
+  },
   setUserData(state, data) {
     state.userData = data;
   },
@@ -89,6 +92,19 @@ const actions = {
       .then(() => {
         commit("setLoading", false);
         router.push({ name: "login" });
+      })
+      .catch(() => {
+        commit("setLoading", false);
+        commit("setErrorMsg", "Oops! Something went wrong!");
+      });
+  },
+  async fetchUsers({ commit }) {
+    commit("setLoading", true);
+    commit("setErrorMsg", "");
+    await Axios.get("https://testapi.io/api/dartya/resource/users")
+      .then((res) => {
+        commit("setLoading", false);
+        commit("setUsers", res.data.data);
       })
       .catch(() => {
         commit("setLoading", false);
